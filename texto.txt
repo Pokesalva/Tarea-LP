@@ -1,0 +1,4 @@
+private String nombre;
+private List<Objeto> bolsa;
+private List<Javaling> equipo;
+private Piso pisoActual;
