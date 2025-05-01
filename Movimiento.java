@@ -14,6 +14,10 @@ public class Movimiento{
         this.esEstado = esEstado;
     }
 
-
-
+    public Tipo getTipo(){
+        return this.tipo;
+    }
+    public int getPotencia(){
+        return this.potencia;
+    }
 }

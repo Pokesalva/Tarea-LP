@@ -4,7 +4,7 @@ import java.util.ArrayList;
 public class Jugador {
     private String nombre;
     private List<Objeto> bolsa;
-    private List<Javaling> equipo;
+    private Javaling[] equipo = new Javaling[6];
     private Piso pisoActual;
 
 
