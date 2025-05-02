@@ -1,5 +1,7 @@
 public class Dragon extends Javaling {
-    public Dragon(String nombre, int hpTotal, int ataque, int defensa, int nivel) {
-        super(nombre, hpTotal, ataque, defensa, Tipo.AGUA, nivel);
-    }
+    boolean multiescamas;
+    public Dragon(String nombre, int hpBase, int velocidad, int hpTotal, int hpActual,
+                int nivel, Tipo tipo, Movimiento[] movimiento, int ataque, int xp, int nextXp) {
+        super(nombre, hpBase, velocidad, hpTotal, hpActual,nivel , Tipo.DRAGON, movimiento,ataque,xp,nextXp);
+        }
 }

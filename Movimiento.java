@@ -20,4 +20,16 @@ public class Movimiento{
     public int getPotencia(){
         return this.potencia;
     }
+    public int getPrecision(){
+        return this.precision;
+    }
+    public String getNombre(){
+        return this.nombre;
+    }
+    public boolean esEstado(){
+        return this.esEstado;
+    }
+    // public Movimiento generarMovimiento(){
+
+    // }
 }

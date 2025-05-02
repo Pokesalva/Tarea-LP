@@ -1,5 +1,7 @@
 public class Fuego extends Javaling {
-    public Fuego(String nombre, int hpTotal, int ataque, int defensa, int nivel) {
-        super(nombre, hpTotal, ataque, defensa, Tipo.AGUA, nivel);
-    }
+    int enLlamas;
+    public Fuego(String nombre, int hpBase, int velocidad, int hpTotal, int hpActual,
+                int nivel, Tipo tipo, Movimiento[] movimiento, int ataque, int xp, int nextXp) {
+        super(nombre, hpBase, velocidad, hpTotal, hpActual,nivel, Tipo.FUEGO, movimiento,ataque,xp,nextXp);
+        }
 }

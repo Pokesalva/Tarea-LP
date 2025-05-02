@@ -14,7 +14,44 @@ public class Jugador {
 //        this.javaling = Javaling;
         this.pisoActual = pisoActual;
     }
-
+    public void agregarObjeto(Objeto item) {
+        if (this.bolsa == null) {
+            this.bolsa = new ArrayList<>();
+        }
+        this.bolsa.add(item);
+    }
+    public void eliminarObjeto(Objeto item) {
+        if (this.bolsa != null) {
+            this.bolsa.remove(item);
+        }
+    }
+    public void usarObjeto(Objeto objeto, Javaling... javaling) {
+        /**
+         * @param Usa un objeto de la bolsa. Si el objeto es curativo, se aplica a todos los
+         * @param Javalings en el equipo. Si el objeto no es curativo, se aplica al primer
+         */
+        if (bolsa.contains(objeto)) {
+            for (Javaling j : javaling) {
+                objeto.usar(j);
+            }
+            objeto.cantidad--;
+            if (objeto.cantidad <= 0) {
+                bolsa.remove(objeto);
+            }
+        } else {
+            System.out.println("No tienes ese objeto en tu bolsa");
+        }
+    }
+    public void mostrarBolsa() {
+        if (bolsa != null && !bolsa.isEmpty()) {
+            System.out.println("Bolsa de " + nombre);
+            for (Objeto objeto : bolsa) {
+                System.out.println(objeto.nombre + " x" + objeto.cantidad);
+            }
+        } else {
+            System.out.println("La bolsa está vacía.");
+        }
+    }
     // public String getNombre() {
     //     return nombre;
     // }

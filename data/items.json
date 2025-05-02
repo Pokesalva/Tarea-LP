@@ -1,0 +1,38 @@
+[
+    {
+        "nombre": "Poción",
+        "descripcion": "Cura el 20% de la salud de un Javaling",
+        "esCurativo": true,
+        "cantidad": 0
+    },
+    {
+        "nombre": "Superpoción",
+        "descripcion": "Cura el 50% de la salud de un Javaling",
+        "esCurativo": true,
+        "cantidad": 0
+    },
+    {
+        "nombre": "Poción máxima",
+        "descripcion": "Cura el 100% de la salud de un Javaling",
+        "esCurativo": true,
+        "cantidad": 0
+    },
+    {
+        "nombre": "Revivir máximo",
+        "descripcion": "Devuelve un Javaling abatido a su 100% de salud",
+        "esCurativo": true,
+        "cantidad": 0
+    },
+    {
+        "nombre": "Caramelo pequeño",
+        "descripcion": "Otorga 1 nivel adicional a cada Javaling",
+        "esCurativo": false,
+        "cantidad": 0
+    },
+    {
+        "nombre": "Caramelo grande",
+        "descripcion": "Otorga 2 niveles adicionales a cada Javaling",
+        "esCurativo": false,
+        "cantidad": 0
+    }
+]

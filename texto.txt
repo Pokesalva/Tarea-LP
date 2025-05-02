@@ -1,4 +1,11 @@
-private String nombre;
-private List<Objeto> bolsa;
-private List<Javaling> equipo;
-private Piso pisoActual;
+    public String nombre;
+    protected int hpBase;
+    protected int velocidad;
+    public int hpTotal;
+    public int hpActual;
+    public int nivel;
+    public Tipo tipo;
+    public Movimiento[] movimiento = new Movimiento[5];
+    public int ataque;
+    public int xp;
+    public int nextXp;
