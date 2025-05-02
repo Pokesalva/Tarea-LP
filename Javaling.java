@@ -1,25 +1,27 @@
 import java.util.List;
 import java.util.ArrayList;
 
-public class Javaling {
-    private String nombre;
-    private int hpTotal;
-    private int hpActual;
-    private int nivel;
-    private Tipo tipo;
-    private Movimiento[] movimiento = new Movimiento[4];
-    private int ataque;
-    private int xp;
-    private int nextXp;
+public abstract class Javaling {
+    public String nombre;
+    protected int hpBase;
+    protected int velocidad;
+    public int hpTotal;
+    public int hpActual;
+    public int nivel;
+    public Tipo tipo;
+    public Movimiento[] movimiento = new Movimiento[5];
+    public int ataque;
+    public int xp;
+    public int nextXp;
     
 
-    public Javaling(String nombre, int hpTotal, int hpActual, int nivel, Tipo tipo, Movimiento movimiento, int ataque) {
+    public Javaling(String nombre, int hpTotal, int hpActual, int nivel, Tipo tipo, int ataque) {
         this.nombre = nombre;
         this.hpTotal = hpTotal;
         this.hpActual = hpActual;
         this.nivel = nivel;
         this.tipo = tipo;
-        this.movimiento = movimiento;
+//        this.movimiento = movimiento;
         this.ataque = ataque;
         if(nivel ==1){
             this.xp = 0;
@@ -37,35 +39,34 @@ public class Javaling {
             return 1.0f;
         }
     }
-    public int atacar(Javaling objetivo, int indiceMov){
-        float efectividad = getEficacia(this.movimiento[indiceMov],objetivo);
+    private int atacar(Javaling objetivo, int indiceMov){
+        //float efectividad = Tipo.AGUA.getEficacia(this.movimiento[indiceMov],objetivo);
+        float efectividad = this.movimiento[indiceMov].getTipo().getEficacia(objetivo.getTipo());
+        
         float stab = this.getStab(indiceMov);
         int habilidad =1;
-        int hb= this.gethpTotal;
+        int hb= this.gethpTotal();
         int potencia = this.movimiento[indiceMov].getPotencia();
         int n = this.getNivel();
-        int dano = (int) ((((2*n/5+2)*potencia+(hb/100))/50+2)stab*efectividad*habilidad); 
-        objetivo.recibirDano(dano)
+        int dano = (int) ((((2*n/5+2)*potencia+(hb/100))/50+2)*stab*efectividad*habilidad); 
+        return objetivo.recibirDano(dano);
     }
 
-    public void recibirDano(int dano){
+    public int recibirDano(int dano){
         this.hpActual -=dano;
         if (this.hpActual <=0){
-            this.muereJavaling()
-        }
+            return 1; //MUERE
+        }else{return 0;} //VIVE
     }
-
-
-
     public void aumentarXp(int nivel) { //nivel del Javaling que mata
         this.xp += 3*nivel + 10;
         while(this.xp >= this.nextXp){
             this.subirNivel();
         }           
     }
-    public void subirNivel(){  //se elimina parametro nivel, ya que se emplea un sistema de experiencia
+    private void subirNivel(){  //se elimina parametro nivel, ya que se emplea un sistema de experiencia
         this.nivel +=1;
-        this.nextXp += (int) (Math.log10(Math.pow((this.nivel*3 + 10.0) / 8.0, 3)) * 10 * math.pow((3*this.nivel+10)/8,0.5)); 
+        this.nextXp += (int) (Math.log10(Math.pow((this.nivel*3 + 10.0) / 8.0, 3)) * 10 * Math.pow((3*this.nivel+10)/8,0.5)); 
     }
 
     // public String getNombre() {

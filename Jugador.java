@@ -8,22 +8,22 @@ public class Jugador {
     private Piso pisoActual;
 
 
-    public Jugador(String nombre, List Objeto, List Javaling, Piso pisoActual) {
+    public Jugador(String nombre, List objeto, List Javaling, Piso pisoActual) {
         this.nombre = nombre;
-        this.Objeto = Objeto;
-        this.Javaling = Javaling;
+//        this.objeto = objeto;
+//        this.javaling = Javaling;
         this.pisoActual = pisoActual;
     }
 
-    public String getNombre() {
-        return nombre;
-    }
+    // public String getNombre() {
+    //     return nombre;
+    // }
 
-    public Javaling getJavaling() {
-        return Javaling;
-    }
+    // public Javaling getJavaling() {
+    //     return Javaling;
+    // }
 
-    public usarObjeto(Objeto item){
+    // public void usarObjeto(Objeto item){
         
-    }
+    // }
 }

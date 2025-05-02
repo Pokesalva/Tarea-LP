@@ -1,4 +1,4 @@
-public class Main {
+class Main {
     public static void main(String[] args) {
         // Pokemon pikachu = new Pokemon("Pikachu", 100, 20);
         // Pokemon charmander = new Pokemon("Charmander", 90, 25);

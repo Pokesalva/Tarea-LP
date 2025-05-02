@@ -5,7 +5,7 @@ public class Entrenador{
     private boolean esCampeon;
     private Javaling[] equipo = new Javaling[6];
 
-    public generarEquipoAleatorio(int piso){
+    // public generarEquipoAleatorio(int piso){
 
-    }
+    // }
 }
