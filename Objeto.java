@@ -1,8 +1,8 @@
 public class Objeto {
-    public String nombre;
-    public String descripcion;
-    public boolean esCurativo;
-    public int cantidad;
+    private String nombre;
+    private String descripcion;
+    private boolean esCurativo;
+    private int cantidad;
 
     public Objeto(String nombre, String descripcion, boolean esCurativo, int cantidad) {
         this.nombre = nombre;

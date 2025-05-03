@@ -7,8 +7,6 @@ public class Piso{
 
     // }
     // public ejecutarDecision(Jugador jugador){
-        
     // }
-
 
 }

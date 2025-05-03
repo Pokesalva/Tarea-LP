@@ -1,0 +1,82 @@
+[
+    {
+      "nombre": "Squirtle",
+      "tipo": "AGUA"
+    },
+    {
+      "nombre": "Charizard",
+      "tipo": "FUEGO"
+    },
+    {
+      "nombre": "Dragonite",
+      "tipo": "DRAGON"
+    },
+    {
+      "nombre": "Chikorita",
+      "tipo": "PLANTA"
+    },
+    {
+      "nombre": "Totodile",
+      "tipo": "AGUA"
+    },
+    {
+      "nombre": "Cyndaquil",
+      "tipo": "FUEGO"
+    },
+    {
+      "nombre": "Treecko",
+      "tipo": "PLANTA"
+    },
+    {
+      "nombre": "Milotic",
+      "tipo": "AGUA"
+    },
+    {
+      "nombre": "Flareon",
+      "tipo": "FUEGO"
+    },
+    {
+      "nombre": "Sceptile",
+      "tipo": "PLANTA"
+    },
+    {
+      "nombre": "Gyarados",
+      "tipo": "AGUA"
+    },
+    {
+      "nombre": "Blaziken",
+      "tipo": "FUEGO"
+    },
+    {
+      "nombre": "Rayquaza",
+      "tipo": "DRAGON"
+    },
+    {
+      "nombre": "Torterra",
+      "tipo": "PLANTA"
+    },
+    {
+      "nombre": "Vaporeon",
+      "tipo": "AGUA"
+    },
+    {
+      "nombre": "Infernape",
+      "tipo": "FUEGO"
+    },
+    {
+      "nombre": "Giratina",
+      "tipo": "DRAGON"
+    },
+    {
+      "nombre": "Leafeon",
+      "tipo": "PLANTA"
+    },
+    {
+      "nombre": "Swampert",
+      "tipo": "AGUA"
+    },
+    {
+      "nombre": "Reshiram",
+      "tipo": "DRAGON"
+    }
+  ]

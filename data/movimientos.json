@@ -1,0 +1,114 @@
+[
+    {
+      "nombre": "Ola de Agua",
+      "potencia": 90,
+      "precision": 95,
+      "tipo": "AGUA",
+      "esEstado": false
+    },
+    {
+      "nombre": "Hidrobomba",
+      "potencia": 150,
+      "precision": 80,
+      "tipo": "AGUA",
+      "esEstado": false
+    },
+    {
+      "nombre": "Aliento de Dragón",
+      "potencia": 120,
+      "precision": 90,
+      "tipo": "DRAGON",
+      "esEstado": false
+    },
+    {
+      "nombre": "Fuego Fatuo",
+      "potencia": 80,
+      "precision": 90,
+      "tipo": "FUEGO",
+      "esEstado": false
+    },
+    {
+      "nombre": "Llamarada",
+      "potencia": 120,
+      "precision": 90,
+      "tipo": "FUEGO",
+      "esEstado": false
+    },
+    {
+      "nombre": "Hoja Cortante",
+      "potencia": 90,
+      "precision": 95,
+      "tipo": "PLANTA",
+      "esEstado": false
+    },
+    {
+      "nombre": "Rayo Solar",
+      "potencia": 130,
+      "precision": 95,
+      "tipo": "PLANTA",
+      "esEstado": false
+    },
+    {
+      "nombre": "Tsunami",
+      "potencia": 160,
+      "precision": 70,
+      "tipo": "AGUA",
+      "esEstado": false
+    },
+    {
+      "nombre": "Explosión de Fuego",
+      "potencia": 140,
+      "precision": 80,
+      "tipo": "FUEGO",
+      "esEstado": false
+    },
+    {
+      "nombre": "Crecimiento Rápido",
+      "potencia": 0,
+      "precision": 100,
+      "tipo": "PLANTA",
+      "esEstado": true
+    },
+    {
+      "nombre": "Quemadura",
+      "potencia": 0,
+      "precision": 100,
+      "tipo": "FUEGO",
+      "esEstado": true
+    },
+    {
+      "nombre": "Congelamiento",
+      "potencia": 0,
+      "precision": 90,
+      "tipo": "AGUA",
+      "esEstado": true
+    },
+    {
+      "nombre": "Fuerza de Dragón",
+      "potencia": 100,
+      "precision": 95,
+      "tipo": "DRAGON",
+      "esEstado": false
+    },
+    {
+      "nombre": "Poder de la Naturaleza",
+      "potencia": 110,
+      "precision": 90,
+      "tipo": "PLANTA",
+      "esEstado": false
+    },
+    {
+      "nombre": "Ola de Fuego",
+      "potencia": 100,
+      "precision": 90,
+      "tipo": "FUEGO",
+      "esEstado": false
+    },
+    {
+      "nombre": "Mordisco de Dragón",
+      "potencia": 90,
+      "precision": 95,
+      "tipo": "DRAGON",
+      "esEstado": false
+    }
+  ]

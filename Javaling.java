@@ -2,21 +2,19 @@ import java.util.List;
 import java.util.ArrayList;
 
 public abstract class Javaling {
-    public String nombre;
+    private String nombre;
     protected int hpBase;
     protected int velocidad;
-    public int hpTotal;
-    public int hpActual;
-    public int nivel;
-    public Tipo tipo;
-    public Movimiento[] movimiento = new Movimiento[4];
-    public int ataque;
-    public int xp;
-    public int nextXp;
+    private int hpTotal;
+    private int hpActual;
+    private int nivel;
+    private Tipo tipo;
+    private Movimiento[] movimiento = new Movimiento[4];
+
     
 
     public Javaling(String nombre, int hpBase, int velocidad, int hpTotal, int hpActual,
-                    int nivel, Tipo tipo, Movimiento[] movimiento, int ataque, int xp, int nextXp) {
+                    int nivel, Tipo tipo, Movimiento[] movimiento) {
         this.nombre = nombre;
         this.hpBase = hpBase;
         this.velocidad = velocidad;
@@ -25,21 +23,7 @@ public abstract class Javaling {
         this.nivel = 1;
         this.tipo = tipo;
         this.movimiento = movimiento;
-        this.ataque = ataque;
-        this.xp = xp;
-        this.nextXp = nextXp;
         // Inicializar el nivel y la experiencia
-        if(nivel ==1){
-            this.xp = 0;
-            this.nextXp = 12;
-        }
-        else{
-            int i = 1;
-            while (i <= nivel) {
-                this.subirNivel();
-                i++;
-            }
-        }
     }
     public String getNombre() {
         return nombre;
@@ -55,15 +39,6 @@ public abstract class Javaling {
     }
     public int getHpActual() {
         return hpActual;
-    }
-    public int getAtaque() {
-        return ataque;
-    }
-    public int getXp() {
-        return xp;
-    }
-    public int getNextXp() {
-        return nextXp;
     }
     public Movimiento[] getMovimiento() {
         return movimiento;
@@ -101,6 +76,9 @@ public abstract class Javaling {
             }
         }
     }
+    public void setVelocidad(int velocidad) {
+        this.velocidad = velocidad;
+    }
     public void setHpTotal(int hpTotal) {
         this.hpTotal = hpTotal;
     }
@@ -121,7 +99,6 @@ public abstract class Javaling {
         }
     }
     private int atacar(Javaling objetivo, int indiceMov){
-        //float efectividad = Tipo.AGUA.getEficacia(this.movimiento[indiceMov],objetivo);
         float efectividad = this.movimiento[indiceMov].getTipo().getEficacia(objetivo.getTipo());
         
         float stab = this.getStab(indiceMov);
@@ -144,15 +121,15 @@ public abstract class Javaling {
                 this.hpActual = this.hpTotal;
             }
         }
-    public void aumentarXp(int nivel) { //nivel del Javaling que mata
-        this.xp += 3*nivel + 10;
-        while(this.xp >= this.nextXp){
-            this.subirNivel();
-        }           
-    }
-    public void subirNivel(){  //se elimina parametro nivel, ya que se emplea un sistema de experiencia
+    // public void aumentarXp(int nivel) { //nivel del Javaling que mata
+    //     this.xp += 3*nivel + 10;
+    //     while(this.xp >= this.nextXp){
+    //         this.subirNivel();
+    //     }           
+    // }
+    public void subirNivel(){  //
         this.nivel +=1;
-        this.nextXp += (int) (Math.log10(Math.pow((this.nivel*3 + 10.0) / 8.0, 3)) * 10 * Math.pow((3*this.nivel+10)/8,0.5)); 
+        this.setHpTotal(2*this.getHpBase()*this.nivel/100  + (this.nivel + 10));
     }
 
     // public String getNombre() {
