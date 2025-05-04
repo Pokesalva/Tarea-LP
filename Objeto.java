@@ -32,6 +32,30 @@ public class Objeto {
         }
         this.cantidad--;
     }
+    public String getNombre() {
+        return nombre;
+    }
+    public String getDescripcion() {
+        return descripcion;
+    }
+    public boolean esCurativo() {
+        return esCurativo;
+    }
+    public int getCantidad() {
+        return cantidad;
+    }
+    public void setCantidad(int cantidad) {
+        this.cantidad = cantidad;
+    }
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
+    }
+    public void setEsCurativo(boolean esCurativo) {
+        this.esCurativo = esCurativo;
+    }
 }
 
 // public class Pocion extends Objeto {

@@ -2,13 +2,16 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
+import java.util.stream.Collectors;
+import java.util.Arrays;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.json.JSONTokener;
 
 public class DataManager {
-    private static List<Movimiento> movimientos;
+    private static Movimiento[] movimientos;
     private static List<Objeto> items;
     private static List<Javaling> listaJavalings;
     private static List<Javaling> aguaJavalings;
@@ -16,8 +19,8 @@ public class DataManager {
     private static List<Javaling> plantaJavalings;
     private static List<Javaling> dragonJavalings;
 
-    private static List<Movimiento> cargarMovimientos() {
-        List<Movimiento> movimientos = new ArrayList<>();
+    private static Movimiento[] cargarMovimientos() {
+        List<Movimiento> movimientosList = new ArrayList<>(); // Cambiar a List<Movimiento>
         try (FileReader reader = new FileReader("data/movimientos.json")) {
             JSONTokener tokener = new JSONTokener(reader);
             JSONArray jsonArray = new JSONArray(tokener);
@@ -30,12 +33,12 @@ public class DataManager {
                         Tipo.valueOf(jsonObject.getString("tipo")),
                         jsonObject.getBoolean("esEstado")
                 );
-                movimientos.add(movimiento);
+                movimientosList.add(movimiento); // Usar add() en la lista
             }
         } catch (IOException e) {
             System.err.println("Error al cargar movimientos: " + e.getMessage());
         }
-        return movimientos;
+        return movimientosList.toArray(new Movimiento[0]); // Convertir la lista a un arreglo
     }
     private static List<Objeto> cargarItems() {
         List<Objeto> items = new ArrayList<>();
@@ -55,9 +58,8 @@ public class DataManager {
         }catch (IOException e) {
         System.err.println("Error al cargar items: " + e.getMessage());
         }
-    return items;
+        return items;
     }
-
     public static void cargarJavalings() {
         listaJavalings = new ArrayList<>();
         aguaJavalings = new ArrayList<>();
@@ -71,86 +73,73 @@ public class DataManager {
             for (int i = 0; i < jsonArray.length(); i++) {
                 JSONObject jsonObject = jsonArray.getJSONObject(i);
                 String tipo = jsonObject.getString("tipo");
-                Javaling javaling = null;
+
+                Javaling javaling = null; // Declarar la variable fuera del switch
 
                 switch (tipo) {
                     case "AGUA":
-                        Agua javaling = new Agua(
+                        javaling = new Agua(
                             jsonObject.getString("nombre"),
-                            0, // hpBase
+                            55, // hpBase
                             0, // velocidad
                             0, // hpTotal
                             0, // hpActual
                             0, // nivel
-                            Tipo.valueOf(jsonObject.getString("tipo")), // tipo
-                            new Movimiento[0], // movimiento vacío
-                            0, // ataque
-                            0, // xp
-                            0 // nextXp
+                            Tipo.AGUA, // tipo
+                            new Movimiento[0] // movimiento vacío
                         );
-                        aguaJavalings.add((Agua) javaling);
+                        aguaJavalings.add(javaling);
                         break;
                     case "FUEGO":
-                        Fuego javaling = new Fuego(
+                        javaling = new Fuego(
                             jsonObject.getString("nombre"),
-                            0, // hpBase
+                            60, // hpBase
                             0, // velocidad
                             0, // hpTotal
                             0, // hpActual
                             0, // nivel
-                            Tipo.valueOf(jsonObject.getString("tipo")), // tipo
-                            new Movimiento[0], // movimiento vacío
-                            0, // ataque
-                            0, // xp
-                            0 // nextXp
+                            Tipo.FUEGO, // tipo
+                            new Movimiento[0] // movimiento vacío
                         );
-                        fuegoJavalings.add((Fuego) javaling);
+                        fuegoJavalings.add(javaling);
                         break;
                     case "PLANTA":
-                        Planta javaling = new Planta(
-                                jsonObject.getString("nombre"),
-                            0, // hpBase
+                        javaling = new Planta(
+                            jsonObject.getString("nombre"),
+                            65, // hpBase
                             0, // velocidad
                             0, // hpTotal
                             0, // hpActual
                             0, // nivel
-                            Tipo.valueOf(jsonObject.getString("tipo")), // tipo
-                            new Movimiento[0], // movimiento vacío
-                            0, // ataque
-                            0, // xp
-                            0 // nextXp
+                            Tipo.PLANTA, // tipo
+                            new Movimiento[0] // movimiento vacío
                         );
-                        plantaJavalings.add((Planta) javaling);
+                        plantaJavalings.add(javaling);
                         break;
                     case "DRAGON":
-                        Dragon javaling = new Dragon(
+                        javaling = new Dragon(
                             jsonObject.getString("nombre"),
-                            0, // hpBase
+                            70, // hpBase
                             0, // velocidad
                             0, // hpTotal
                             0, // hpActual
                             0, // nivel
-                            Tipo.valueOf(jsonObject.getString("tipo")), // tipo
-                            new Movimiento[0], // movimiento vacío
-                            0, // ataque
-                            0, // xp
-                            0 // nextXp
+                            Tipo.DRAGON, // tipo
+                            new Movimiento[0] // movimiento vacío
                         );
-                        dragonJavalings.add((Dragon) javaling);
+                        dragonJavalings.add(javaling);
                         break;
                 }
 
                 if (javaling != null) {
-                    listaJavalings.add(javaling);
+                    listaJavalings.add(javaling); // Añadir a la lista principal
                 }
             }
         } catch (IOException e) {
             System.err.println("Error al cargar javalings: " + e.getMessage());
         }
     }
-
-
-    public static List<Movimiento> getListaMovimientos() {
+    public static Movimiento[] getListaMovimientos() {
         return movimientos;
     }
     public static List<Objeto> getListaItems() {
@@ -180,36 +169,135 @@ public class DataManager {
         Objeto item = items.get(randomIndex);
         return item;
     }
+    //
+        // public Movimiento getMovimientoAleatorio() {
+        //     int randomIndex = (int) (Math.random() * movimientos.length);
+        //     Movimiento movimiento = movimientos[randomIndex];
+        //     return movimiento;
+        // }
+        // public Movimiento getMovimientoAleatorioTipo(Tipo tipo) {
+        //     Movimiento[] movimientosDelTipo = movimientos.stream()
+        //         .filter(movimiento -> movimiento.getTipo() == tipo)
+        //         .collect(Collectors.toList());
+        //     int randomIndex = (int) (Math.random() * movimientosDelTipo.length);
+        //     return movimientosDelTipo[randomIndex];
+        // }
+        // public Movimiento getMovimientoAleatorioTipoEstado(Tipo tipo) {
+        //     Movimiento[] movimientosEstado = movimientos.stream()
+        //         .filter(movimiento -> movimiento.getTipo() == tipo && movimiento.esEstado())
+        //         .collect(Collectors.toList());
+        //     int randomIndex = (int) (Math.random() * movimientosEstado.length);
+        //     return movimientosEstado[randomIndex];
+        // }
+        // public Movimiento getMovimientoAleatorioTipoNoEstado(Tipo tipo) {
+        //     Movimiento[] movimientosNoEstado = movimientos.stream()
+        //         .filter(movimiento -> movimiento.getTipo() == tipo && !movimiento.esEstado())
+        //         .collect(Collectors.toList());
+        //     int randomIndex = (int) (Math.random() * movimientosNoEstado.length);
+        //     return movimientosNoEstado[randomIndex];
+        // }
+    
     public Movimiento getMovimientoAleatorio() {
-        int randomIndex = (int) (Math.random() * movimientos.size());
-        Movimiento movimiento = movimientos.get(randomIndex);
-        return movimiento;
-    }
-    public Movimiento getMovimientoAleatorioTipo(Tipo tipo) {
-        List<Movimiento> movimientosDelTipo = movimientos.stream()
+    int randomIndex = (int) (Math.random() * movimientos.length);
+    return movimientos[randomIndex];
+}
+public Movimiento getMovimientoAleatorioTipo(Tipo tipo) {
+    Movimiento[] movimientosDelTipo = Arrays.stream(movimientos)
             .filter(movimiento -> movimiento.getTipo() == tipo)
-            .collect(Collectors.toList());
-        int randomIndex = (int) (Math.random() * movimientosDelTipo.size());
-        return movimientosDelTipo.get(randomIndex)
+            .toArray(Movimiento[]::new);
+    if (movimientosDelTipo.length == 0) {
+        return null; // o lanza una excepción si no hay movimientos del tipo
     }
-
-    //public Javaling getJavalingAleatorio() {}
+    int randomIndex = (int) (Math.random() * movimientosDelTipo.length);
+    return movimientosDelTipo[randomIndex];
+}
+public Movimiento getMovimientoAleatorioTipoEstado(Tipo tipo) {
+    Movimiento[] movimientosEstado = Arrays.stream(movimientos)
+            .filter(movimiento -> movimiento.getTipo() == tipo && movimiento.esEstado())
+            .toArray(Movimiento[]::new);
+    if (movimientosEstado.length == 0) {
+        return null; // o lanza una excepción si no hay movimientos del tipo y estado
+    }
+    int randomIndex = (int) (Math.random() * movimientosEstado.length);
+    return movimientosEstado[randomIndex];
+}
+public Movimiento getMovimientoAleatorioTipoNoEstado(Tipo tipo) {
+    Movimiento[] movimientosNoEstado = Arrays.stream(movimientos)
+            .filter(movimiento -> movimiento.getTipo() == tipo && !movimiento.esEstado())
+            .toArray(Movimiento[]::new);
+    if (movimientosNoEstado.length == 0) {
+        return null; // o lanza una excepción si no hay movimientos del tipo y no estado
+    }
+    int randomIndex = (int) (Math.random() * movimientosNoEstado.length);
+    return movimientosNoEstado[randomIndex];
+}
+    public Javaling getJavalingAleatorio(int nivel) {
+        Tipo tipoAleatorio = Tipo.values()[(int) (Math.random() * 4)];
+        return getJavalingAleatorioTipo(nivel, tipoAleatorio);
+    }
+    public Javaling getJavalingAleatorioSalvaje(int nivel){
+        /**
+         * Devuelve un javaling aleatorio con una probabilidad de 0.97 de que sea
+         * un tipo diferente a DRAGON y una probabilidad de 0.03 de que sea un
+         * tipo DRAGON.
+         */
+        Random random = new Random();
+        double probabilidad = random.nextDouble();
+        List<Tipo> tipos = new ArrayList<>();
+        Tipo tipoAleatorio;
+        for (Tipo t : Tipo.values()) {
+            tipos.add(t);
+        }tipos.remove(Tipo.DRAGON);
+        if (probabilidad < 0.97) {
+            tipoAleatorio = tipos.get(random.nextInt(tipos.size()));
+        } else {
+            tipoAleatorio = Tipo.DRAGON;
+        }
+        return getJavalingAleatorioTipo(nivel, tipoAleatorio);
+    }
+    public Javaling getJavalingAleatorioEntrenador(int nivel){
+        /**
+         * Devuelve un javaling aleatorio con una probabilidad de 0.95 de que sea
+         * un tipo diferente a DRAGON y una probabilidad de 0.05 de que sea un
+         * tipo DRAGON.
+         */
+        Random random = new Random();
+        double probabilidad = random.nextDouble();
+        List<Tipo> tipos = new ArrayList<>();
+        Tipo tipoAleatorio;
+        for (Tipo t : Tipo.values()) {
+            tipos.add(t);
+        }tipos.remove(Tipo.DRAGON);
+        if (probabilidad < 0.95) {
+            tipoAleatorio = tipos.get(random.nextInt(tipos.size()));
+        } else {
+            tipoAleatorio = Tipo.DRAGON;
+        }
+        return getJavalingAleatorioTipo(nivel, tipoAleatorio);
+    }
     public Javaling getJavalingAleatorioTipo(int nivel,Tipo tipo) {
+        /**
+         * CREA OBJETO (new)
+         * Método principal para crear un Iniciar un javaling.
+         */
+        int randomIndex;
+        Random random = new Random();
+        Javaling javaling = null;
         if(tipo == Tipo.AGUA){
             randomIndex = (int) (Math.random() * aguaJavalings.size());
-            Agua javaling = DataManager.getListaJavalingsTipo(tipo).get(randomIndex);
+            javaling = new Agua(getListaJavalingsTipo(tipo).get(randomIndex));
+        } 
+        else if (tipo == Tipo.FUEGO) {
+            randomIndex = (int) (Math.random() * getListaJavalingsTipo(tipo).size());
+            javaling = new Fuego(getListaJavalingsTipo(tipo).get(randomIndex)); // Inicializar con Fuego
         }
-        else if(tipo == Tipo.FUEGO){
-            randomIndex = (int) (Math.random() * fuegoJavalings.size());
-            Fuego javaling = DataManager.getListaJavalingsTipo(tipo).get(randomIndex);
+        else if (tipo == Tipo.PLANTA) {
+            randomIndex = (int) (Math.random() * getListaJavalingsTipo(tipo).size());
+            javaling = new Planta(getListaJavalingsTipo(tipo).get(randomIndex)); // Inicializar con Planta
         }
-        else if(tipo == Tipo.PLANTA){
-            randomIndex = (int) (Math.random() * plantaJavalings.size());
-            Planta javaling = DataManager.getListaJavalingsTipo(tipo).get(randomIndex);
-        }
-        else if(tipo == Tipo.DRAGON){
-            randomIndex = (int) (Math.random() * dragonJavalings.size());
-            Dragon javaling = DataManager.getListaJavalingsTipo(tipo).get(randomIndex);
+        else if (tipo == Tipo.DRAGON) {
+            randomIndex = (int) (Math.random() * getListaJavalingsTipo(tipo).size());
+            javaling = new Dragon(getListaJavalingsTipo(tipo).get(randomIndex)); // Inicializar con Dragon
         }
         // Asignar nivel y stats
         javaling.setNivel(nivel);
@@ -219,13 +307,18 @@ public class DataManager {
             i++;
             }
         javaling.setHpActual(javaling.getHpTotal());
-        javaling.setVelocidad((int) (Math.random() * 200)+1);
+        javaling.setVelocidad(random.nextInt(401));
         // Asignar movimientos
-        for (int j = 0; j < 4; j++) {
-            Movimiento movimiento = DataManager.getMovimientoAleatorioTipo(tipo);
-            javaling.setMovimiento(javaling, null, movimiento);
-        }
-        return javaling;
-    }
+        
+        Movimiento movimiento1 = getMovimientoAleatorioTipoNoEstado(tipo);
+        Movimiento movimiento2 = getMovimientoAleatorioTipoNoEstado(tipo);
+        Movimiento movimiento3 = getMovimientoAleatorioTipoEstado(tipo);
+        //Movimiento movimiento4 = getMovimientoAleatorio();
+        javaling.setMovimiento(null, movimiento1);
+        javaling.setMovimiento(null, movimiento2);
+        javaling.setMovimiento(null, movimiento3);
+        //javaling.setMovimiento(null, movimiento4);
     
+        return javaling;
+    } 
 }

@@ -20,7 +20,7 @@ public abstract class Javaling {
         this.velocidad = velocidad;
         this.hpTotal = hpTotal;
         this.hpActual = hpActual;
-        this.nivel = 1;
+        this.nivel = nivel;
         this.tipo = tipo;
         this.movimiento = movimiento;
         // Inicializar el nivel y la experiencia
@@ -52,7 +52,15 @@ public abstract class Javaling {
     public int gethpTotal() {
         return this.hpTotal;
     }
-    public void setMovimiento(Javaling javaling, Movimiento movRemplazo, Movimiento movNuevo){
+    public void setMovimientoArray(Movimiento[] mov){
+        /**
+         * Cambia el array de movimientos por otro.
+         * 
+         * @param mov Array de movimientos.
+         */
+        this.movimiento = mov;
+    }
+    public void setMovimiento(Movimiento movRemplazo, Movimiento movNuevo){
         /**
          * Cambia un movimiento por otro. Si el movimiento a reemplazar no existe, se
          * añade el nuevo movimiento al primer espacio vacío.
@@ -61,23 +69,29 @@ public abstract class Javaling {
          * @param movNuevo Movimiento nuevo.
          */
         if (movRemplazo != null) {
-            for (int i = 0; i < javaling.getMovimiento().length; i++){
-                if (javaling.getMovimiento()[i].getNombre() == movRemplazo.getNombre()){
-                    javaling.getMovimiento()[i] = movNuevo;
-                }else if(javaling.getMovimiento()[i] == null){
-                    javaling.getMovimiento()[i] = movNuevo;
+            for (int i = 0; i < this.getMovimiento().length; i++){
+                if (this.getMovimiento()[i].getNombre() == movRemplazo.getNombre()){
+                    this.getMovimiento()[i] = movNuevo;
+                }else if(this.getMovimiento()[i] == null){
+                    this.getMovimiento()[i] = movNuevo;
                 }
             }
         }else{
-            for (int i = 0; i < javaling.getMovimiento().length; i++){
-                if (javaling.getMovimiento()[i] == null){
-                    javaling.getMovimiento()[i] = movNuevo;
+            for (int i = 0; i < this.getMovimiento().length; i++){
+                if (this.getMovimiento()[i] == null){
+                    this.getMovimiento()[i] = movNuevo;
                 }
             }
         }
     }
     public void setVelocidad(int velocidad) {
         this.velocidad = velocidad;
+    }
+    public void setHpBase(int hpBase) {
+        this.hpBase = hpBase;
+    }
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
     }
     public void setHpTotal(int hpTotal) {
         this.hpTotal = hpTotal;

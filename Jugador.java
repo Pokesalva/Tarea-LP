@@ -8,10 +8,10 @@ public class Jugador {
     private Piso pisoActual;
 
 
-    public Jugador(String nombre, List objeto, List Javaling, Piso pisoActual) {
+    public Jugador(String nombre, List<Objeto> bolsa, Javaling[] equipo, Piso pisoActual) {
         this.nombre = nombre;
-//        this.objeto = objeto;
-//        this.javaling = Javaling;
+        this.bolsa = bolsa;
+        this.equipo = equipo;
         this.pisoActual = pisoActual;
     }
     public void agregarObjeto(Objeto item) {
@@ -34,8 +34,8 @@ public class Jugador {
             for (Javaling j : javaling) {
                 objeto.usar(j);
             }
-            objeto.cantidad--;
-            if (objeto.cantidad <= 0) {
+            objeto.setCantidad(objeto.getCantidad() - 1);
+            if (objeto.getCantidad() <= 0) {
                 bolsa.remove(objeto);
             }
         } else {
@@ -46,7 +46,7 @@ public class Jugador {
         if (bolsa != null && !bolsa.isEmpty()) {
             System.out.println("Bolsa de " + nombre);
             for (Objeto objeto : bolsa) {
-                System.out.println(objeto.nombre + " x" + objeto.cantidad);
+                System.out.println(objeto.getNombre() + " x" + objeto.getCantidad());
             }
         } else {
             System.out.println("La bolsa está vacía.");

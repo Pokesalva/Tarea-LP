@@ -1,23 +1,31 @@
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Random;
 
 public class Entrenador{
     private boolean esCampeon;
     private Javaling[] equipo = new Javaling[6];
 
-    public static List<Javaling> generarEquipoAleatorio(int piso) {
-        List<Javaling> equipo = new Javaling[6];
 
+    public Entrenador(boolean esCampeon, Piso piso) {
+        this.esCampeon = esCampeon;
+        if (esCampeon) {
+            this.equipo = this.generarEquipoAleatorio(piso.getPiso());
+        } else {
+            this.equipo = this.generarEquipoAleatorio(piso.getPiso());
+        }
+    }
+
+    public Javaling[] generarEquipoAleatorio(int piso) {
+        DataManager dataManager = new DataManager();
+        Javaling[] equipo = new Javaling[6];
         // calcular el nivel base
         int nivelBase = (int) Math.floor(1.3 * piso);
-
-        // calcular el nivel de los Javaling
+        Random random = new Random();
         int nivelEntrenador = nivelBase + random.nextInt(7) - 3;
         if (piso <= 5) {
-            nivelMin = 4;
-            nivelMax = 6;
+            nivelEntrenador = 4 + random.nextInt(3);
         }
-
         // calcular la cantidad de Javaling
         int cantidadMin = 1;
         int cantidadMax = 1;
@@ -36,17 +44,26 @@ public class Entrenador{
             cantidadMin = 5;
             cantidadMax = 6;
         }
-
+        if (this.esCampeon) {
+            cantidadMax = 6;
+        }
         // generar los Javaling
-        int cantidad = random.nextInt(2) + cantidadMin;
+        int cantidad = random.nextInt(cantidadMax - cantidadMin + 1) + cantidadMin;
         for (int i = 0; i < cantidad; i++) {
-            Javaling javaling = DataManager().getJavalingAleatorio();
-            javaling.setNivel(nivelEntrenador);
-
-            equipo.add(javaling);
+            Javaling javaling = dataManager.getJavalingAleatorioEntrenador(nivelEntrenador);
+            equipo[i] = javaling;
+        }
+        if (this.esCampeon) {
+            Javaling javaling = dataManager.getJavalingAleatorioTipo(nivelEntrenador,Tipo.DRAGON);
+            equipo[0] = javaling;
+            for(Javaling j : equipo){
+                j.setMovimiento(null, dataManager.getMovimientoAleatorioTipo(j.getTipo()));
+            }
         }
 
         return equipo;
     }
+
+
 
 }
