@@ -1,15 +1,15 @@
 JAVAC=javac
-JAR=json-20240303.jar
-SRC=main.java Javaling.java Agua.java Fuego.java Planta.java Dragon.java Jugador.java Entrenador.java Piso.java Objeto.java Movimiento.java Batalla.java Tipo.java DataManager.java
-CLASSES=$(SRC:.java=.class)
+LIB_DIR=lib
+JAR=$(LIB_DIR)/json-20240303.jar
+SRC_DIR=src
+SRC=$(wildcard $(SRC_DIR)/*.java)
+MAIN_CLASS=Main
 
-all: $(CLASSES)
-
-%.class: %.java
-	$(JAVAC) -cp .:$(JAR) $<
+all:
+	$(JAVAC) -cp $(SRC_DIR):$(JAR) -d $(SRC_DIR) $(SRC)
 
 run: all
-	java -cp .:$(JAR) main
+	java -cp $(SRC_DIR):$(JAR) $(MAIN_CLASS)
 
 clean:
-	rm -f *.class
+	rm -f $(SRC_DIR)/*.class

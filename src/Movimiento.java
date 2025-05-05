@@ -7,7 +7,6 @@ public class Movimiento{
     private int precision;
     private Tipo tipo;
     private boolean esEstado;
-    private static Random random = new Random();
 
 
     public Movimiento(String nombre, int potencia, int precision, Tipo tipo, boolean esEstado){
@@ -16,6 +15,10 @@ public class Movimiento{
         this.precision = precision;
         this.tipo = tipo;
         this.esEstado = esEstado;
+    }
+    @Override
+    public String toString() {
+        return "Movimiento [nombre=" + nombre + ", tipo=" + tipo + "]";
     }
     public Tipo getTipo(){
         return this.tipo;

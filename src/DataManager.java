@@ -3,7 +3,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-import java.util.stream.Collectors;
 import java.util.Arrays;
 
 import org.json.JSONArray;
@@ -18,7 +17,54 @@ public class DataManager {
     private static List<Javaling> fuegoJavalings;
     private static List<Javaling> plantaJavalings;
     private static List<Javaling> dragonJavalings;
+    private static int sizeDragonJavalings;
+    private static int sizeAguaJavalings;
+    private static int sizeFuegoJavalings;
+    private static int sizePlantaJavalings;
+    private static int sizeListaJavalings;
+    private static int sizeItems;
+    private static int sizeMovimientos;
 
+    public DataManager() {
+        if (movimientos == null) {
+            cargarDatos();
+        }
+    }
+    private void cargarDatos() {
+        movimientos = cargarMovimientos();
+        items = cargarItems();
+        cargarJavalings();
+        sizeDragonJavalings = dragonJavalings.size();
+        sizeAguaJavalings = aguaJavalings.size();
+        sizeFuegoJavalings = fuegoJavalings.size();
+        sizePlantaJavalings = plantaJavalings.size();
+        sizeListaJavalings = listaJavalings.size();
+        sizeItems = items.size();
+        sizeMovimientos = movimientos.length;
+    }
+    public static int getSizeJavalingsTipo(Tipo tipo) {
+        /**
+         * Devuelve el tamaño de la lista de javalings de un tipo específico.
+         * Si no se encuentra el tipo, devuelve el tamaño de la lista de javalings.
+         */
+        if (tipo == Tipo.AGUA) {
+            return sizeAguaJavalings;
+        } else if (tipo == Tipo.FUEGO) {
+            return sizeFuegoJavalings;
+        } else if (tipo == Tipo.PLANTA) {
+            return sizePlantaJavalings;
+        } else if (tipo == Tipo.DRAGON) {
+            return sizeDragonJavalings;
+        }
+        return sizeListaJavalings;
+    
+    }
+    public static int getSizeItems() {
+        return sizeItems;
+    }
+    public static int getSizeMovimientos() {
+        return sizeMovimientos;
+    }
     private static Movimiento[] cargarMovimientos() {
         List<Movimiento> movimientosList = new ArrayList<>(); // Cambiar a List<Movimiento>
         try (FileReader reader = new FileReader("data/movimientos.json")) {
@@ -66,7 +112,6 @@ public class DataManager {
         fuegoJavalings = new ArrayList<>();
         plantaJavalings = new ArrayList<>();
         dragonJavalings = new ArrayList<>();
-
         try (FileReader reader = new FileReader("data/javalings.json")) {
             JSONTokener tokener = new JSONTokener(reader);
             JSONArray jsonArray = new JSONArray(tokener);
@@ -196,41 +241,43 @@ public class DataManager {
         //     int randomIndex = (int) (Math.random() * movimientosNoEstado.length);
         //     return movimientosNoEstado[randomIndex];
         // }
-    
     public Movimiento getMovimientoAleatorio() {
-    int randomIndex = (int) (Math.random() * movimientos.length);
+    int randomIndex = (int) (Math.random() * sizeMovimientos);
     return movimientos[randomIndex];
 }
-public Movimiento getMovimientoAleatorioTipo(Tipo tipo) {
-    Movimiento[] movimientosDelTipo = Arrays.stream(movimientos)
-            .filter(movimiento -> movimiento.getTipo() == tipo)
-            .toArray(Movimiento[]::new);
-    if (movimientosDelTipo.length == 0) {
-        return null; // o lanza una excepción si no hay movimientos del tipo
+    public Movimiento getMovimientoAleatorioTipo(Tipo tipo) {
+        Movimiento[] movimientosDelTipo = Arrays.stream(movimientos)
+                .filter(movimiento -> movimiento.getTipo() == tipo)
+                .toArray(Movimiento[]::new);
+        if (movimientosDelTipo.length == 0) {
+            return null; // o lanza una excepción si no hay movimientos del tipo
+        }
+        int randomIndex = (int) (Math.random() * movimientosDelTipo.length);
+        if (randomIndex >= movimientosDelTipo.length) {
+            randomIndex = movimientosDelTipo.length - 1; // Asegurarse de que el índice esté dentro del rango
+        }
+        return movimientosDelTipo[randomIndex];
     }
-    int randomIndex = (int) (Math.random() * movimientosDelTipo.length);
-    return movimientosDelTipo[randomIndex];
-}
-public Movimiento getMovimientoAleatorioTipoEstado(Tipo tipo) {
-    Movimiento[] movimientosEstado = Arrays.stream(movimientos)
-            .filter(movimiento -> movimiento.getTipo() == tipo && movimiento.esEstado())
-            .toArray(Movimiento[]::new);
-    if (movimientosEstado.length == 0) {
-        return null; // o lanza una excepción si no hay movimientos del tipo y estado
+    public Movimiento getMovimientoAleatorioTipoEstado(Tipo tipo) {
+        Movimiento[] movimientosEstado = Arrays.stream(movimientos)
+                .filter(movimiento -> movimiento.getTipo() == tipo && movimiento.esEstado())
+                .toArray(Movimiento[]::new);
+        if (movimientosEstado.length == 0) {
+            return null; // o lanza una excepción si no hay movimientos del tipo y estado
+        }
+        int randomIndex = (int) (Math.random() * movimientosEstado.length);
+        return movimientosEstado[randomIndex];
     }
-    int randomIndex = (int) (Math.random() * movimientosEstado.length);
-    return movimientosEstado[randomIndex];
-}
-public Movimiento getMovimientoAleatorioTipoNoEstado(Tipo tipo) {
-    Movimiento[] movimientosNoEstado = Arrays.stream(movimientos)
-            .filter(movimiento -> movimiento.getTipo() == tipo && !movimiento.esEstado())
-            .toArray(Movimiento[]::new);
-    if (movimientosNoEstado.length == 0) {
-        return null; // o lanza una excepción si no hay movimientos del tipo y no estado
+    public Movimiento getMovimientoAleatorioTipoNoEstado(Tipo tipo) {
+        Movimiento[] movimientosNoEstado = Arrays.stream(movimientos)
+                .filter(movimiento -> movimiento.getTipo() == tipo && !movimiento.esEstado())
+                .toArray(Movimiento[]::new);
+        if (movimientosNoEstado.length == 0) {
+            return null; // o lanza una excepción si no hay movimientos del tipo y no estado
+        }
+        int randomIndex = (int) (Math.random() * movimientosNoEstado.length);
+        return movimientosNoEstado[randomIndex];
     }
-    int randomIndex = (int) (Math.random() * movimientosNoEstado.length);
-    return movimientosNoEstado[randomIndex];
-}
     public Javaling getJavalingAleatorio(int nivel) {
         Tipo tipoAleatorio = Tipo.values()[(int) (Math.random() * 4)];
         return getJavalingAleatorioTipo(nivel, tipoAleatorio);
@@ -284,19 +331,19 @@ public Movimiento getMovimientoAleatorioTipoNoEstado(Tipo tipo) {
         Random random = new Random();
         Javaling javaling = null;
         if(tipo == Tipo.AGUA){
-            randomIndex = (int) (Math.random() * aguaJavalings.size());
+            randomIndex = (int) (Math.random() * getSizeJavalingsTipo(tipo));
             javaling = new Agua(getListaJavalingsTipo(tipo).get(randomIndex));
         } 
         else if (tipo == Tipo.FUEGO) {
-            randomIndex = (int) (Math.random() * getListaJavalingsTipo(tipo).size());
+            randomIndex = (int) (Math.random() * getSizeJavalingsTipo(tipo));
             javaling = new Fuego(getListaJavalingsTipo(tipo).get(randomIndex)); // Inicializar con Fuego
         }
         else if (tipo == Tipo.PLANTA) {
-            randomIndex = (int) (Math.random() * getListaJavalingsTipo(tipo).size());
+            randomIndex = (int) (Math.random() * getSizeJavalingsTipo(tipo));
             javaling = new Planta(getListaJavalingsTipo(tipo).get(randomIndex)); // Inicializar con Planta
         }
         else if (tipo == Tipo.DRAGON) {
-            randomIndex = (int) (Math.random() * getListaJavalingsTipo(tipo).size());
+            randomIndex = (int) (Math.random() * getSizeJavalingsTipo(tipo));
             javaling = new Dragon(getListaJavalingsTipo(tipo).get(randomIndex)); // Inicializar con Dragon
         }
         // Asignar nivel y stats
@@ -321,4 +368,41 @@ public Movimiento getMovimientoAleatorioTipoNoEstado(Tipo tipo) {
     
         return javaling;
     } 
+    public void imprimirListas() {
+        System.out.println("Movimientos:");
+        for (Movimiento movimiento : movimientos) {
+            System.out.println(movimiento);
+        }
+    
+        System.out.println("\nItems:");
+        for (Objeto item : items) {
+            System.out.println(item);
+        }
+    
+        System.out.println("\nLista de Javalings:");
+        for (Javaling javaling : listaJavalings) {
+            System.out.println(javaling);
+        }
+    
+        System.out.println("\nJavalings de Agua:");
+        for (Javaling javaling : aguaJavalings) {
+            System.out.println(javaling);
+        }
+    
+        System.out.println("\nJavalings de Fuego:");
+        for (Javaling javaling : fuegoJavalings) {
+            System.out.println(javaling);
+        }
+    
+        System.out.println("\nJavalings de Planta:");
+        for (Javaling javaling : plantaJavalings) {
+            System.out.println(javaling);
+        }
+    
+        System.out.println("\nJavalings de Dragon:");
+        for (Javaling javaling : dragonJavalings) {
+            System.out.println(javaling);
+        }
+    }
+
 }

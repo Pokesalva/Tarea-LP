@@ -10,6 +10,10 @@ public class Objeto {
         this.esCurativo = esCurativo;
         this.cantidad = cantidad;
     }
+    @Override
+    public String toString() {
+        return "Objeto [nombre=" + nombre + ", descripcion=" + descripcion + "]";
+    }
 
     public void usar(Javaling javaling) {
         if (this.nombre.equals("Poción") ){

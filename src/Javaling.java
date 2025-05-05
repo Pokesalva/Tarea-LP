@@ -1,5 +1,6 @@
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public abstract class Javaling {
     private String nombre;
@@ -24,6 +25,15 @@ public abstract class Javaling {
         this.tipo = tipo;
         this.movimiento = movimiento;
         // Inicializar el nivel y la experiencia
+    }
+    @Override
+    public String toString() {
+        return "Javaling [nombre=" + nombre + ", tipo=" + tipo  + "]";
+    }
+    public void printJavaling(){
+        System.out.println("Nombre: " + this.nombre);
+        System.out.println("Tipo: " + this.tipo);
+        System.out.println("Movimientos: " + Arrays.toString(this.movimiento));
     }
     public String getNombre() {
         return nombre;
@@ -134,7 +144,10 @@ public abstract class Javaling {
             if (this.hpActual > this.hpTotal) {
                 this.hpActual = this.hpTotal;
             }
-        }
+    }
+    public void recuperarSaludCompleta() {
+        this.hpActual = this.hpTotal;
+    }
     // public void aumentarXp(int nivel) { //nivel del Javaling que mata
     //     this.xp += 3*nivel + 10;
     //     while(this.xp >= this.nextXp){
