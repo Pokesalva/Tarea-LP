@@ -131,7 +131,7 @@ public class DataManager {
                             0, // hpActual
                             0, // nivel
                             Tipo.AGUA, // tipo
-                            new Movimiento[0] // movimiento vacío
+                            new Movimiento[4] // movimiento vacío
                         );
                         aguaJavalings.add(javaling);
                         break;
@@ -144,7 +144,7 @@ public class DataManager {
                             0, // hpActual
                             0, // nivel
                             Tipo.FUEGO, // tipo
-                            new Movimiento[0] // movimiento vacío
+                            new Movimiento[4] // movimiento vacío
                         );
                         fuegoJavalings.add(javaling);
                         break;
@@ -157,7 +157,7 @@ public class DataManager {
                             0, // hpActual
                             0, // nivel
                             Tipo.PLANTA, // tipo
-                            new Movimiento[0] // movimiento vacío
+                            new Movimiento[4] // movimiento vacío
                         );
                         plantaJavalings.add(javaling);
                         break;
@@ -170,7 +170,7 @@ public class DataManager {
                             0, // hpActual
                             0, // nivel
                             Tipo.DRAGON, // tipo
-                            new Movimiento[0] // movimiento vacío
+                            new Movimiento[4] // movimiento vacío
                         );
                         dragonJavalings.add(javaling);
                         break;
@@ -273,6 +273,7 @@ public class DataManager {
                 .filter(movimiento -> movimiento.getTipo() == tipo && !movimiento.esEstado())
                 .toArray(Movimiento[]::new);
         if (movimientosNoEstado.length == 0) {
+            System.out.println("No hay movimientos del tipo " + tipo + " y no estado.");
             return null; // o lanza una excepción si no hay movimientos del tipo y no estado
         }
         int randomIndex = (int) (Math.random() * movimientosNoEstado.length);
@@ -348,11 +349,7 @@ public class DataManager {
         }
         // Asignar nivel y stats
         javaling.setNivel(nivel);
-        int i = 1;
-        while (i <= nivel) {
-            javaling.subirNivel();
-            i++;
-            }
+        javaling.setHpTotalNivel(nivel);
         javaling.setHpActual(javaling.getHpTotal());
         javaling.setVelocidad(random.nextInt(401));
         // Asignar movimientos

@@ -17,9 +17,9 @@ public class Jugador {
     }
     public Jugador(String nombre, List<Objeto> bolsa, Javaling[] equipo, Piso pisoActual) {
         this.nombre = nombre;
-        this.bolsa = bolsa;
-        this.equipo = equipo;
-        this.pisoActual = pisoActual;
+        this.bolsa = bolsa != null ? bolsa : new ArrayList<>();
+        this.equipo = equipo != null ? equipo : new Javaling[6];
+        this.pisoActual = pisoActual != null ? pisoActual : new Piso(1);
     }
     public String getNombre() {
         return nombre;
@@ -71,13 +71,12 @@ public class Jugador {
             System.out.println("La bolsa está vacía.");
         }
     }
-    public void agregarJavaling(Javaling javaling) {
-        Scanner scanner = new Scanner(System.in);
+    public void agregarJavaling(Javaling javaling, Scanner scanner) {
         for (int i = 0; i < equipo.length; i++) {
             if (equipo[i] == null) {
                 equipo[i] = javaling;
                 System.out.println(javaling.getNombre() + " agregado al equipo.");
-                scanner.close();
+                
                 return;
             }
         }
@@ -96,11 +95,12 @@ public class Jugador {
                 eliminarJavaling(index);
                 equipo[index] = javaling;
                 System.out.println("Javaling agregado al equipo.");
+                return;
             } else {
                 System.out.println("Número inválido.");
             }
         }
-        scanner.close();
+        
     }
     public void eliminarJavaling(Javaling javaling) {
         for (int i = 0; i < equipo.length; i++) {

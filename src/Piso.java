@@ -17,11 +17,15 @@ public class Piso{
     }
     public int getNivelPiso(){
         Random random = new Random();
-        int nivelBase = (int) Math.floor(1.3 * piso);
-        int nivelPiso = nivelBase + random.nextInt(7) - 3;
-        if (piso <= 5) {
+        int nivelBase;
+        int nivelPiso;
+        if (piso < 6) {
             nivelPiso = 4 + random.nextInt(3);
-        }return nivelPiso;
+        }else{
+            nivelBase = (int) Math.floor(1.3 * piso);
+            nivelPiso = nivelBase + random.nextInt(7) - 3;
+        }
+        return nivelPiso;
     }
     public void subirPiso(){
         this.piso++;
@@ -52,19 +56,23 @@ public class Piso{
             j.recuperarSaludCompleta();
         }
     }
-    public void ejecutarDecision(Jugador jugador){
-        Scanner scanner = new Scanner(System.in);
+    public void ejecutarDecision(Jugador jugador,Scanner scanner){;
         // System.out.println("¿Que quieres hacer?");
         // System.out.println("(1) Batalla (2) Captura (3) Item Random");
         // this.decision = scanner.nextInt();
         if (this.decision == 1){
             //batalla(jugador);
+            return;
         }
         
 
         else if (this.decision == 2){ //captura
-            Javaling javaling = dataManager.getJavalingAleatorioSalvaje(jugador.getPisoActual().getNivelPiso());
+            System.out.println("nivel piso:"+ this.getNivelPiso());
+            Javaling javaling = dataManager.getJavalingAleatorioSalvaje(this.getNivelPiso());
+            
             System.out.println("Has encontrado un " + javaling.getNombre());
+            System.out.println("Nivel " + javaling.getNivel());
+            javaling.printMovimientoJavaling();
             System.out.println("¿Quieres capturarlo? (1) Si (2) No");
 
             int choice = scanner.nextInt();
@@ -72,9 +80,10 @@ public class Piso{
                 Random random = new Random();
                 double probabilidad = random.nextDouble();
                 if (probabilidad < 0.4){
-                    jugador.agregarJavaling(javaling);
+                    jugador.agregarJavaling(javaling,scanner);
                     System.out.println("Has capturado a " + javaling.getNombre());
                     this.subirPiso();
+                    return;
                 }else{
                     System.out.println("Has fallado la captura");
                     Random random1 = new Random();
@@ -82,25 +91,42 @@ public class Piso{
                     System.out.println("Quieres intentar capturarlo de nuevo? (1) Si (2) No");
                     int choice1 = scanner.nextInt();
                     if (choice1 == 1){
-                        if (probabilidad1 < 0.4){
-                            jugador.agregarJavaling(javaling);
-                            System.out.println("Has capturado a " + javaling.getNombre());
-                            this.subirPiso();
-                        }else{
-                            System.out.println("Has fallado la captura");
+                        boolean continuar= true;
+                        while(continuar){
+                            System.out.println("Intentando capturar a " + javaling.getNombre());
+                            probabilidad1 = random1.nextDouble();
+                            if (probabilidad1 < 0.4){
+                                jugador.agregarJavaling(javaling,scanner);
+                                System.out.println("Has capturado a " + javaling.getNombre());
+                                this.subirPiso();
+                                continuar = false;
+                                return;
+                            }else{
+                                System.out.println("Has fallado la captura");
+                                System.out.println("Quieres intentar capturarlo de nuevo? (1) Si (2) No");
+                                choice1 = scanner.nextInt();
+                                if (choice1 != 1){
+                                    continuar = false;
+                                    return;
+                                }
+                            }
                         }
                     }else{
                         System.out.println("El javaling se ha escapado");
+                        return;
                     }
                 }
             }else if (choice == 2){
                 System.out.println("Has decidido no capturarlo");
+                return;
             }
         }
         else if (this.decision == 3){ //item random
             Objeto objetoAleatorio = dataManager.getItemAleatorio();
             jugador.agregarObjeto(objetoAleatorio);
+            jugador.mostrarBolsa();
+            this.subirPiso();
+            return;
         };
-        scanner.close();
     }
 }

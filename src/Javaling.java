@@ -35,6 +35,9 @@ public abstract class Javaling {
         System.out.println("Tipo: " + this.tipo);
         System.out.println("Movimientos: " + Arrays.toString(this.movimiento));
     }
+    public void printMovimientoJavaling(){
+        System.out.println("Movimientos: " + Arrays.toString(this.movimiento));
+    } 
     public String getNombre() {
         return nombre;
     }
@@ -105,6 +108,9 @@ public abstract class Javaling {
     }
     public void setHpTotal(int hpTotal) {
         this.hpTotal = hpTotal;
+    }
+    public void setHpTotalNivel(int nivel) {
+        this.hpTotal = 2*this.getHpBase()*nivel/100  + (nivel + 10);
     }
     public void setHpActual(int hpActual) {
         this.hpActual = hpActual;
