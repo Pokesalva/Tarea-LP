@@ -85,14 +85,14 @@ public abstract class Javaling {
             for (int i = 0; i < this.getMovimiento().length; i++){
                 if (this.getMovimiento()[i].getNombre() == movRemplazo.getNombre()){
                     this.getMovimiento()[i] = movNuevo;
-                }else if(this.getMovimiento()[i] == null){
-                    this.getMovimiento()[i] = movNuevo;
+                    return;
                 }
             }
         }else{
             for (int i = 0; i < this.getMovimiento().length; i++){
                 if (this.getMovimiento()[i] == null){
                     this.getMovimiento()[i] = movNuevo;
+                    return;
                 }
             }
         }
@@ -138,6 +138,14 @@ public abstract class Javaling {
         int n = this.getNivel();
         int dano = (int) ((((2*n/5+2)*potencia+(hb/100))/50+2)*stab*efectividad*habilidad); 
         return objetivo.recibirDano(dano);
+    }
+    public boolean tieneMovimiento(Movimiento mov){
+        for (int i = 0; i < this.movimiento.length; i++){
+            if (this.movimiento[i] == mov){
+                return true;
+            }
+        }
+        return false;
     }
     public int recibirDano(int dano){
         this.hpActual -=dano;

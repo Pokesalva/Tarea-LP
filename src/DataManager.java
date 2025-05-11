@@ -354,14 +354,29 @@ public class DataManager {
         javaling.setVelocidad(random.nextInt(401));
         // Asignar movimientos
         
-        Movimiento movimiento1 = getMovimientoAleatorioTipoNoEstado(tipo);
-        Movimiento movimiento2 = getMovimientoAleatorioTipoNoEstado(tipo);
-        Movimiento movimiento3 = getMovimientoAleatorioTipoEstado(tipo);
-        //Movimiento movimiento4 = getMovimientoAleatorio();
-        javaling.setMovimiento(null, movimiento1);
-        javaling.setMovimiento(null, movimiento2);
-        javaling.setMovimiento(null, movimiento3);
-        //javaling.setMovimiento(null, movimiento4);
+        // Movimiento movimiento1 = getMovimientoAleatorioTipoNoEstado(tipo);
+        // Movimiento movimiento2 = getMovimientoAleatorioTipoNoEstado(tipo);
+        // Movimiento movimiento3 = getMovimientoAleatorioTipoEstado(tipo);
+        // //Movimiento movimiento4 = getMovimientoAleatorio();
+        // javaling.setMovimiento(null, movimiento1);
+        // javaling.setMovimiento(null, movimiento2);
+        // javaling.setMovimiento(null, movimiento3);
+        // //javaling.setMovimiento(null, movimiento4);
+        for (int i = 0; i < 4; i++) {
+            javaling.getMovimiento()[i] = null;
+        }
+        while(javaling.getMovimiento()[0] == null || javaling.getMovimiento()[1] == null){
+            Movimiento movimiento = getMovimientoAleatorioTipoNoEstado(tipo);
+            if (movimiento != null && !javaling.tieneMovimiento(movimiento)) {
+                javaling.setMovimiento(null, movimiento);
+            }
+        }
+        while (javaling.getMovimiento()[2] == null){
+            Movimiento movimiento2 = getMovimientoAleatorioTipoNoEstado(tipo);
+            if (movimiento2 != null && !javaling.tieneMovimiento(movimiento2)) {
+                javaling.setMovimiento(null, movimiento2);
+            }
+        }
     
         return javaling;
     } 
@@ -401,5 +416,14 @@ public class DataManager {
             System.out.println(javaling);
         }
     }
-
+    public void imprimirListasMovimientoTipo(Tipo tipo) {
+        Movimiento[] movimientosDelTipo = Arrays.stream(movimientos)
+                .filter(movimiento -> movimiento.getTipo() == tipo)
+                .toArray(Movimiento[]::new);
+    
+        System.out.println("\nMovimientos del tipo " + tipo + ":");
+        for (Movimiento movimiento : movimientosDelTipo) {
+            System.out.println(movimiento);
+        }
+    }
 }
