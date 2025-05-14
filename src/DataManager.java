@@ -24,11 +24,13 @@ public class DataManager {
     private static int sizeListaJavalings;
     private static int sizeItems;
     private static int sizeMovimientos;
+    private static Random random = new Random();
 
     public DataManager() {
         if (movimientos == null) {
             cargarDatos();
         }
+        random = new Random();
     }
     private void cargarDatos() {
         movimientos = cargarMovimientos();
@@ -289,7 +291,6 @@ public class DataManager {
          * un tipo diferente a DRAGON y una probabilidad de 0.03 de que sea un
          * tipo DRAGON.
          */
-        Random random = new Random();
         double probabilidad = random.nextDouble();
         List<Tipo> tipos = new ArrayList<>();
         Tipo tipoAleatorio;
@@ -309,7 +310,6 @@ public class DataManager {
          * un tipo diferente a DRAGON y una probabilidad de 0.05 de que sea un
          * tipo DRAGON.
          */
-        Random random = new Random();
         double probabilidad = random.nextDouble();
         List<Tipo> tipos = new ArrayList<>();
         Tipo tipoAleatorio;
@@ -353,15 +353,7 @@ public class DataManager {
         javaling.setHpActual(javaling.getHpTotal());
         javaling.setVelocidad(random.nextInt(401));
         // Asignar movimientos
-        
-        // Movimiento movimiento1 = getMovimientoAleatorioTipoNoEstado(tipo);
-        // Movimiento movimiento2 = getMovimientoAleatorioTipoNoEstado(tipo);
-        // Movimiento movimiento3 = getMovimientoAleatorioTipoEstado(tipo);
-        // //Movimiento movimiento4 = getMovimientoAleatorio();
-        // javaling.setMovimiento(null, movimiento1);
-        // javaling.setMovimiento(null, movimiento2);
-        // javaling.setMovimiento(null, movimiento3);
-        // //javaling.setMovimiento(null, movimiento4);
+
         for (int i = 0; i < 4; i++) {
             javaling.getMovimiento()[i] = null;
         }

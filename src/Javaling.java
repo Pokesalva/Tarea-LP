@@ -1,6 +1,8 @@
 import java.util.List;
+import java.util.Random;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Random;
 
 public abstract class Javaling {
     private String nombre;
@@ -11,6 +13,18 @@ public abstract class Javaling {
     private int nivel;
     private Tipo tipo;
     private Movimiento[] movimiento = new Movimiento[4];
+    private Estado estado;
+    private int turnosRestantes;
+    private static Random random = new Random();
+    
+    public enum Estado{
+        PARALIZADO,
+        DORMIDO,
+        QUEMADO,
+        MODOFURIA
+    }
+    
+
 
     
 
@@ -24,6 +38,9 @@ public abstract class Javaling {
         this.nivel = nivel;
         this.tipo = tipo;
         this.movimiento = movimiento;
+        this.estado = null; // Inicializar el estado como nulo
+        this.turnosRestantes = 0; // Inicializar los turnos restantes como 0
+        random = new Random(); // Inicializar el generador de números aleatorios
         // Inicializar el nivel y la experiencia
     }
     @Override
@@ -64,6 +81,12 @@ public abstract class Javaling {
     }
     public int gethpTotal() {
         return this.hpTotal;
+    }
+    public Estado getEstado() {
+        return estado;
+    }
+    public int getTurnosRestantes() {
+        return turnosRestantes;
     }
     public void setMovimientoArray(Movimiento[] mov){
         /**
@@ -128,6 +151,25 @@ public abstract class Javaling {
             return 1.0f;
         }
     }
+    public void setEstado(Estado estado){
+        if (estado != null) {
+            this.estado = estado;
+            this.turnosRestantes = 2; // Establecer la duración del estado a 3 turnos
+        }
+        else{System.out.println("El Javaling ya tiene un Estado");}
+    }
+    public void setTurnosRestantes(int turnosRestantes) {
+        this.turnosRestantes = turnosRestantes;
+    }
+    public void restarTurnoEstado() {
+        if (this.estado != null) {
+            this.turnosRestantes--;
+            if (this.turnosRestantes <= 0) {
+                this.turnosRestantes = 0;
+                this.estado = null;
+            }
+        }
+    }
     private int atacar(Javaling objetivo, int indiceMov){
         float efectividad = this.movimiento[indiceMov].getTipo().getEficacia(objetivo.getTipo());
         
@@ -137,7 +179,10 @@ public abstract class Javaling {
         int potencia = this.movimiento[indiceMov].getPotencia();
         int n = this.getNivel();
         int dano = (int) ((((2*n/5+2)*potencia+(hb/100))/50+2)*stab*efectividad*habilidad); 
-        return objetivo.recibirDano(dano);
+        return dano;
+    }
+    public int atacarObjetivo(Javaling objetivo, int indiceMov){
+        return atacar(objetivo, indiceMov);
     }
     public boolean tieneMovimiento(Movimiento mov){
         for (int i = 0; i < this.movimiento.length; i++){
@@ -146,12 +191,6 @@ public abstract class Javaling {
             }
         }
         return false;
-    }
-    public int recibirDano(int dano){
-        this.hpActual -=dano;
-        if (this.hpActual <=0){
-            return 1; //MUERE
-        }else{return 0;} //VIVE
     }
     public void recuperarSalud(int cantidad) {
             this.hpActual += cantidad;
@@ -162,31 +201,50 @@ public abstract class Javaling {
     public void recuperarSaludCompleta() {
         this.hpActual = this.hpTotal;
     }
-    // public void aumentarXp(int nivel) { //nivel del Javaling que mata
-    //     this.xp += 3*nivel + 10;
-    //     while(this.xp >= this.nextXp){
-    //         this.subirNivel();
-    //     }           
-    // }
+
     public void subirNivel(){  //
         this.nivel +=1;
         this.setHpTotal(2*this.getHpBase()*this.nivel/100  + (this.nivel + 10));
+        this.setHpActual(this.getHpTotal());
     }
-
-    // public String getNombre() {
-    //     return nombre;
-    // }
-
-    // public void recibirDano(int cantidad) {
-    //     hpTotal -= cantidad;
-    //     if (hpTotal < 0) hpTotal = 0;
-    // }
-
-    // public int atacar() {
-    //     return ataque;
-    // }
-
-    // public boolean estaVivo() {
-    //     return hpTotal > 0;
-    // }
+    public void aplicarEfectoEstado() {
+        if (this.estado != null) {
+            // Aplicar el efecto del estado al Javaling
+            switch (this.estado) {
+                case PARALIZADO:
+                    // Lógica para el estado paralizado
+                    System.out.println(this.nombre + " está paralizado, quizás no ataque atacar.");
+                    this.turnosRestantes--;
+                    if (this.turnosRestantes <= 0) {
+                        this.estado = null; // Eliminar el estado después de su duración
+                    }
+                    break;
+                case DORMIDO:
+                    // Lógica para el estado dormido
+                    System.out.println(this.nombre + " está dormido y no puede atacar.");
+                    this.turnosRestantes--;
+                    if (this.turnosRestantes <= 0) {
+                        this.estado = null; // Eliminar el estado después de su duración
+                    }
+                    break;
+                case QUEMADO:
+                    // Lógica para el estado quemado
+                    System.out.println(this.nombre + " está quemado y pierde salud.");
+                    this.hpActual -= 10; // Ejemplo de daño por quemadura
+                    this.turnosRestantes--;
+                    if (this.turnosRestantes <= 0) {
+                        this.estado = null; // Eliminar el estado después de su duración
+                    }
+                    break;
+                case MODOFURIA:
+                    // Lógica para el modo furia
+                    System.out.println(this.nombre + " está furioso y atacará con más potencia.");
+                    this.turnosRestantes--;
+                    if (this.turnosRestantes <= 0) {
+                        this.estado = null; // Eliminar el estado después de su duración
+                    }
+                    break;
+            }
+        }
+    }
 }

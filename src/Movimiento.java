@@ -16,9 +16,10 @@ public class Movimiento{
         this.tipo = tipo;
         this.esEstado = esEstado;
     }
+
     @Override
     public String toString() {
-        return "Movimiento [nombre=" + nombre + ", tipo=" + tipo + "]";
+        return "nombre";
     }
     public Tipo getTipo(){
         return this.tipo;
@@ -34,5 +35,23 @@ public class Movimiento{
     }
     public boolean esEstado(){
         return this.esEstado;
+    }
+
+    public class Estado extends Movimiento{
+        private String nombre;
+        private int potencia;
+        private int precision;
+        private Tipo tipo;
+        private boolean esEstado;
+        private int turnosRestantes;
+
+        public Estado(String nombre, int potencia, int precision, Tipo tipo, boolean esEstado){
+            super(nombre, potencia, precision, tipo, esEstado);
+            this.nombre = nombre;
+            this.potencia = potencia;
+            this.precision = precision;
+            this.tipo = tipo;
+            this.esEstado = esEstado;
+        }
     }
 }

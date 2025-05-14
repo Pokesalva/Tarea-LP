@@ -37,6 +37,13 @@ public class Jugador {
         if (this.bolsa == null) {
             this.bolsa = new ArrayList<>();
         }
+        for (int i=0; i< bolsa.size();i++ ){
+            if (bolsa.get(i).getNombre() == item.getNombre()){
+                bolsa.get(i).aumentarCantidad();
+                return;
+            }
+        }
+        item.aumentarCantidad();
         this.bolsa.add(item);
     }
     public void eliminarObjeto(Objeto item) {
@@ -63,12 +70,12 @@ public class Jugador {
     }
     public void mostrarBolsa() {
         if (bolsa != null && !bolsa.isEmpty()) {
-            System.out.println("Bolsa de " + nombre);
+            System.out.println("    BOLSA DE " + nombre.toUpperCase());
             for (Objeto objeto : bolsa) {
-                System.out.println(objeto.getNombre() + " x" + objeto.getCantidad());
+                System.out.println("    > 1. " + objeto.getNombre() + " x" + objeto.getCantidad());
             }
         } else {
-            System.out.println("La bolsa está vacía.");
+            System.out.println("    >>> La bolsa está vacía.");
         }
     }
     public void agregarJavaling(Javaling javaling, Scanner scanner) {
@@ -122,7 +129,7 @@ public class Jugador {
         System.out.println("Equipo de " + nombre);
         for (int i = 0; i < equipo.length; i++) {
             if (equipo[i] != null) {
-                System.out.println((i + 1) + ". " + equipo[i].getNombre());
+                System.out.println((i + 1) + ". " + equipo[i].getNombre() + "(lvl: " + equipo[i].getNivel()+ ")" + "vida" + equipo[i].getHpActual());
             } else {
                 System.out.println((i + 1) + ". Vacío");
             }

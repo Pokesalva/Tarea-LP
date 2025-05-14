@@ -1,19 +1,24 @@
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.Scanner;
 
 public class Entrenador{
     public String nombre="Entrenador";
     private boolean esCampeon;
     private Javaling[] equipo = new Javaling[6];
+    private static Random random = new Random();
 
 
     public Entrenador(boolean esCampeon, Piso piso, DataManager dataManager) {
         this.esCampeon = esCampeon;
+        equipo = new Javaling[6];
         if (esCampeon) {
-            this.equipo = this.generarEquipoAleatorio(piso.getPiso(), dataManager);
+            this.generarEquipoAleatorio(piso.getPiso(), dataManager);
+            esCampeon = true;
         } else {
-            this.equipo = this.generarEquipoAleatorio(piso.getPiso(), dataManager);
+            this.generarEquipoAleatorio(piso.getPiso(), dataManager);
+            esCampeon = false;
         }
     }
     public String getNombre() {
@@ -25,17 +30,15 @@ public class Entrenador{
     public Javaling[] getEquipo() {
         return equipo;
     }
-    public Javaling[] generarEquipoAleatorio(int piso, DataManager dataManager) {
+    public void generarEquipoAleatorio(int piso, DataManager dataManager) {
         /**
          * Genera un equipo aleatorio de Javaling.
          * 
          * @param piso Piso del entrenador.
          * @return Array de Javaling.
          */
-        Javaling[] equipo = new Javaling[6];
         // calcular el nivel base
         int nivelBase = (int) Math.floor(1.3 * piso);
-        Random random = new Random();
         int nivelEntrenador = nivelBase + random.nextInt(7) - 3;
         if (piso <= 5) {
             nivelEntrenador = 4 + random.nextInt(3);
@@ -61,27 +64,10 @@ public class Entrenador{
         if (this.esCampeon) {
             cantidadMax = 6;
         }
-        // generar los Javaling
-        // int cantidad = random.nextInt(cantidadMax - cantidadMin + 1) + cantidadMin;
-        // for (int i = 0; i < cantidad; i++) {
-        //     Javaling javaling = dataManager.getJavalingAleatorioEntrenador(nivelEntrenador);
-        //     this.equipo[i] = javaling;
-        // }
-        // if (this.esCampeon) {
-        //     Javaling javaling = dataManager.getJavalingAleatorioTipo(nivelEntrenador,Tipo.DRAGON);
-        //     this.equipo[0] = javaling;
-        //     for(Javaling j : equipo){
-        //         j.setMovimiento(null, dataManager.getMovimientoAleatorioTipo(j.getTipo()));
-        //     }
-        // }
         int cantidad = random.nextInt(cantidadMax - cantidadMin + 1) + cantidadMin;
         for (int i = 0; i < cantidad; i++) {
             Javaling javaling = dataManager.getJavalingAleatorioEntrenador(nivelEntrenador);
-            if (javaling != null) {
-                this.equipo[i] = javaling;
-            } else {
-                System.out.println("No se pudo generar un Javaling");
-            }
+            this.agregarJavaling(javaling);
         }
         if (this.esCampeon) {
             Javaling javaling = dataManager.getJavalingAleatorioTipo(nivelEntrenador, Tipo.DRAGON);
@@ -91,13 +77,23 @@ public class Entrenador{
                 System.out.println("No se pudo generar un Javaling de tipo DRAGON");
             }
         }
-        for (Javaling j : equipo) {
-            if (j != null) {
-                j.setMovimiento(null, dataManager.getMovimientoAleatorioTipo(j.getTipo()));
+    }
+    public void mostrarEquipo() {
+        System.out.println("Equipo de " + nombre);
+        for (int i = 0; i < equipo.length; i++) {
+            if (equipo[i] != null) {
+                System.out.println((i + 1) + ". " + equipo[i].getNombre());
             } else {
-                System.out.println("Javaling es null, no se puede asignar movimiento");
+                System.out.println((i + 1) + ". Vacío");
             }
         }
-        return equipo;
+    }
+    public void agregarJavaling(Javaling javaling) {
+        for (int i = 0; i < equipo.length; i++) {
+            if (equipo[i] == null) {
+                equipo[i] = javaling;
+                return;
+            }
+        }
     }
 }

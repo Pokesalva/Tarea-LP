@@ -60,6 +60,12 @@ public class Objeto {
     public void setEsCurativo(boolean esCurativo) {
         this.esCurativo = esCurativo;
     }
+    public void aumentarCantidad(){
+        this.cantidad++;
+    }
+    public void aumentarCantidad(int cantidad){
+        this.cantidad = this.getCantidad() + cantidad;
+    }
 }
 
 // public class Pocion extends Objeto {

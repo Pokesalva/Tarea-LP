@@ -8,6 +8,7 @@ public class Piso{
     private int decision;
     public int piso;
     static DataManager dataManager = new DataManager();
+    private static Random random = new Random();
 
     public Piso(int piso){
         this.piso = piso;
@@ -64,6 +65,7 @@ public class Piso{
         // this.decision = scanner.nextInt();
         if (this.decision == 1){
             //batalla(jugador);
+            new Batalla(jugador, new Entrenador(false, this, dataManager));
             return;
         }
         
@@ -79,56 +81,63 @@ public class Piso{
 
             int choice = scanner.nextInt();
             if (choice == 1){ //DECISION CAPTURAR
-                Random random = new Random();
                 double probabilidad = random.nextDouble();
                 if (probabilidad < 0.4){
                     jugador.agregarJavaling(javaling,scanner);
-                    System.out.println("Has capturado a " + javaling.getNombre());
+                    System.out.println(" Has capturado a " + javaling.getNombre());
                     this.subirPiso();
                     return;
                 }else{
-                    System.out.println("Has fallado la captura");
-                    Random random1 = new Random();
-                    double probabilidad1 = random1.nextDouble();
+                    System.out.println("Has fallado la captura"); 
                     System.out.println("Quieres intentar capturarlo de nuevo? (1) Si (2) No");
                     int choice1 = scanner.nextInt();
                     if (choice1 == 1){
                         boolean continuar= true;
+                        probabilidad = random.nextDouble();
                         while(continuar){
-                            System.out.println("Intentando capturar a " + javaling.getNombre());
-                            probabilidad1 = random1.nextDouble();
-                            if (probabilidad1 < 0.4){
+                            System.out.println(">>> (ciclo) Intentando capturar a " + javaling.getNombre());
+                            
+                            if (probabilidad < 0.4){
                                 jugador.agregarJavaling(javaling,scanner);
                                 System.out.println("Has capturado a " + javaling.getNombre());
                                 this.subirPiso();
                                 continuar = false;
                                 return;
                             }else{
-                                System.out.println("Has fallado la captura");
+                                System.out.println(" Has fallado la captura");
                                 System.out.println("Quieres intentar capturarlo de nuevo? (1) Si (2) No");
                                 choice1 = scanner.nextInt();
                                 if (choice1 != 1){
                                     continuar = false;
                                     return;
                                 }
-                            }
+                                probabilidad= random.nextDouble();
+                                if (probabilidad < 0.6){
+                                    System.out.println(" El javaling se ha escapado. No lo has capturado\n/*********************Terminando proceso de Captura************************/\n");
+                                    return;
+                                }
+                            }probabilidad = random.nextDouble();
                         }
                     }else{
-                        System.out.println("El javaling se ha escapado");
+                        System.out.println(" El javaling se ha escapado. No lo has capturado\n/*********************Terminando proceso de Captura************************/\n");
                         return;
                     }
                 }
             }else if (choice == 2){
-                System.out.println("Has decidido no capturarlo");
+                System.out.println(" Has decidido no capturarlo\n/*********************Terminando proceso de Captura************************/\n ");
                 return;
             }
         }
         else if (this.decision == 3){ //item random
             Objeto objetoAleatorio = dataManager.getItemAleatorio();
-            jugador.agregarObjeto(objetoAleatorio);
+            jugador.agregarObjeto(objetoAleatorio);          
+            System.out.println("Has obtenido: " + objetoAleatorio.getNombre());
             jugador.mostrarBolsa();
             this.subirPiso();
             return;
-        };
+        }
+        else if(this.decision==4){ //ver Equipo
+            jugador.mostrarEquipo();
+        }
     }
 }
