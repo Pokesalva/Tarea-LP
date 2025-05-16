@@ -1,11 +1,10 @@
-    public String nombre;
-    protected int hpBase;
-    protected int velocidad;
-    public int hpTotal;
-    public int hpActual;
-    public int nivel;
-    public Tipo tipo;
-    public Movimiento[] movimiento = new Movimiento[5];
-    public int ataque;
-    public int xp;
-    public int nextXp;
+me falta revisar
+logica campeon SOLO DEJE LISTO LA APARACION Y VICTORIA, FALTA LOS JAVALING Y SUS MOVS
+revisar asignacion de movimientos
+también la logica de mov de Estado
+logica Sansanito LISTO
+logita movminetos al subir de nivel
+logica finalizar juego
+dar opciones de mover Javalings el orden
+uso de items fuera de bvatallla LISTO
+interfaz BATALLA

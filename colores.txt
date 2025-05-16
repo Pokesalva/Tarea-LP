@@ -1,0 +1,18 @@
+System.out.println("[31m __      __       .__                                                                   [0m");
+System.out.println("[31m/  \\    /  \\ ____ |  |   ____   _____   ____                                            [0m");
+System.out.println("[31m\\   \\/\\/   // __ \\|  |  /  _ \\ /     \\_/ __ \\                                           [0m");
+System.out.println("[31m \\        /\\  ___/|  |_(  <_> )  Y Y  \\  ___/                                           [0m");
+System.out.println("[31m  \\__/\\  /  \\___  >____/\\____/|__|_|  /\\___  >                                          [0m");
+System.out.println("[31m       \\/       \\/                  \\/     \\/                                           [0m");
+System.out.println("[31m                     __                                                                 [0m");
+System.out.println("[31m                   _/  |_  ____                                                         [0m");
+System.out.println("[31m                   \\   __\\/  _ \\                                                        [0m");
+System.out.println("[31m                    |  | (  <_> )                                                       [0m");
+System.out.println("[31m                    |__|  \\____/                                                        [0m");
+System.out.println("[31m                                                                                        [0m");
+System.out.println("[31m___________________ _______________________________      ____.  _________   _________   [0m");
+System.out.println("[31m\\__    ___/\\_____  \\\\______   \\______   \\_   _____/     |    | /  _  \\   \\ /   /  _  \\  [0m");
+System.out.println("[31m  |    |    /   |   \\|       _/|       _/|    __)_      |    |/  /_\\  \\   Y   /  /_\\  \\ [0m");
+System.out.println("[31m  |    |   /    |    \\    |   \\|    |   \\|        \\ /\\__|    /    |    \\     /    |    \\[0m");
+System.out.println("[31m  |____|   \\_______  /____|_  /|____|_  /_______  / \\________\\____|__  /\\___/\\____|__  /[0m");
+System.out.println("[31m                   \\/       \\/        \\/        \\/                   \\/              \\/ [0m");

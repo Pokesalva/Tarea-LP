@@ -30,6 +30,14 @@ public class Entrenador{
     public Javaling[] getEquipo() {
         return equipo;
     }
+    public int getEquipoTamaño(){
+        int j=0;
+        for( int i =0;i<6;i++){
+            if(this.getEquipo()[i]!=null){
+                j++;
+            }
+        }return j;
+    }
     public void generarEquipoAleatorio(int piso, DataManager dataManager) {
         /**
          * Genera un equipo aleatorio de Javaling.

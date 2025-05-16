@@ -12,11 +12,13 @@ public class Agua extends Javaling {
         this.setTipo(Tipo.AGUA);
         this.oleaje = false;
         this.setHpBase(55);
+        this.setColor("azul");
         }
     public Agua(String nombre, int hpBase, int velocidad, int hpTotal, int hpActual, int nivel, Tipo tipo, Movimiento[] movimiento) {
         super(nombre,hpBase, velocidad, hpTotal, hpActual, nivel, tipo, movimiento);
         this.setTipo(Tipo.AGUA);
         this.oleaje = false;
         this.setHpBase(55);
+        this.setColor("azul");
     }
 }

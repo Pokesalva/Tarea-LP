@@ -16,26 +16,36 @@ public class Objeto {
     }
 
     public void usar(Javaling javaling) {
-        if (this.nombre.equals("Poción") ){
+        if (this.nombre.equals("Poción")) {
             int saludRecuperada = (int) (javaling.getHpTotal() * 0.2);
             javaling.recuperarSalud(saludRecuperada);
+            Main.print("Usaste " + nombre + " en " + javaling.getNombre() + ". Ha recuperado " + saludRecuperada + " de vida\n", "amarillo claro", 15);
         } else if (this.nombre.equals("Superpoción")) {
             int saludRecuperada = (int) (javaling.getHpTotal() * 0.5);
             javaling.recuperarSalud(saludRecuperada);
+            Main.print("Usaste " + nombre + " en " + javaling.getNombre() + ". Ha recuperado " + saludRecuperada + " de vida\n", "amarillo claro", 15);
         } else if (this.nombre.equals("Poción máxima")) {
             javaling.recuperarSalud(javaling.getHpTotal());
+            Main.print("Usaste " + nombre + " en " + javaling.getNombre() + ". Se ha recuperado completamente\n", "amarillo claro", 15);
         } else if (this.nombre.equals("Revivir máximo")) {
             if (javaling.getHpActual() == 0) {
                 javaling.recuperarSalud(javaling.getHpTotal());
+                Main.print("Usaste " + nombre + " en " + javaling.getNombre() + ". ¡Ha revivido completamente!\n", "amarillo claro", 15);
+            } else {
+                Main.print(javaling.getNombre() + " aún está con vida. No se puede usar " + nombre + "\n", "rojo claro", 15);
+                return;
             }
         } else if (this.nombre.equals("Caramelo pequeño")) {
             javaling.subirNivel();
+            Main.print("Usaste " + nombre + " en " + javaling.getNombre() + ". Ha subido 1 nivel\n", "verde claro", 15);
         } else if (this.nombre.equals("Caramelo grande")) {
             javaling.subirNivel();
             javaling.subirNivel();
+            Main.print("Usaste " + nombre + " en " + javaling.getNombre() + ". Ha subido 2 niveles\n", "verde claro", 15);
         }
         this.cantidad--;
     }
+    
     public String getNombre() {
         return nombre;
     }

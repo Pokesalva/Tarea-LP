@@ -32,6 +32,9 @@ public class Piso{
     }
     public void subirPiso(){
         this.piso++;
+        if (this.piso % 10 == 0) {
+            this.centroSansanito =true;
+        }
     }
     public void setPiso(int piso){
         this.piso = piso;
@@ -60,12 +63,79 @@ public class Piso{
         }
     }
     public void ejecutarDecision(Jugador jugador,Scanner scanner){;
+        if(getCentroSansanito()){
+            Main.print("Ólvidate de eso, bienvenido al SANSANITO\n", "aqua claro");
+            Main.print("Curaremos tus Javaling y recibirás dos item\n", "aqua claro");
+            Main.print("Buscando objetos polvorientos ***************************", 80, "aqua claro", true, "Listo!");
+
+            Objeto objetoAleatorio2 = dataManager.getItemAleatorio();
+            jugador.agregarObjeto(objetoAleatorio2);          
+            Main.print("Has obtenido: ", "aqua claro", 15);
+            Main.print(objetoAleatorio2.getNombre()+ "\n", "rojo claro", 15);
+
+            Objeto objetoAleatorio1 = dataManager.getItemAleatorio();
+            jugador.agregarObjeto(objetoAleatorio1);          
+            Main.print("Has obtenido: ", "aqua claro", 15);
+            Main.print(objetoAleatorio1.getNombre()+ "\n", "rojo claro", 15);
+            
+            for(int i =0; i <6; i++){
+                if(jugador.getEquipo()[i]!=null){
+                    jugador.getEquipo()[i].recuperarSaludCompleta();
+                }
+            }
+            Main.print("Cuidando Javaling roñosos *****************************", 80, "aqua claro", true, "Listo!");
+            subirPiso();
+            return;
+        }
         // System.out.println("¿Que quieres hacer?");
         // System.out.println("(1) Batalla (2) Captura (3) Item Random");
         // this.decision = scanner.nextInt();
         if (this.decision == 1){
-            //batalla(jugador);
-            new Batalla(jugador, new Entrenador(false, this, dataManager));
+            boolean vivos = false;
+            for (int i = 0; i < jugador.getEquipoTamaño(); i++) {
+                if (jugador.getEquipo()[i]!=null){
+                    if ( jugador.getEquipo()[i].getHpActual() > 0) {
+                        vivos = true;
+                        break;
+                    }
+                }
+            }
+            if(vivos==false){
+                Main.print("No te quedan Javaling vivos\nPierdes por tontito\n", "rojo");
+                Main.imprimirASCII("gameover", "rojo");
+                System.exit(0);
+            }
+            int probCampeon= 0;
+            if(this.piso >=30){
+                probCampeon = this.piso -30 +5;
+            }
+            Entrenador entrenador;
+            if(random.nextDouble()<=probCampeon/100){
+                entrenador = new Entrenador(true, this, dataManager);
+                Main.print("¡¡¡¡HA APARECIDO EL CAMPEÓN!!!!\nSi le ganas eres el mejor de Chile\n", "rojo");
+            }
+            else{
+                entrenador = new Entrenador(false, this, dataManager);
+            }
+            
+
+
+
+
+            Main.print(">>>Cargando Batalla. No cierres la ventana SWING *********************************************",25,"cyan",true,"Batalla iniciada. NO CIERRES LA VENTANA\n" );
+            BatallaGUI batalla = new BatallaGUI(jugador, entrenador);
+            batalla.mostrar();
+            batalla.esperarFin();
+            if(batalla.getVictoria()){
+                if(entrenador.esCampeon()){
+                    Main.print("LE GANASTE AL MEJOR DE CHILEEEEEEEE\n\n", "aqua claro");
+                    System.err.print("\u001b[5m");
+                    Main.imprimirASCII("victoria", "aqua claro");
+                }
+                this.subirPiso();
+            }
+            batalla=null;
+            Main.print(">>>Cargando****************************************",35,"cyan",true,"Fase de Batalla completada\n" );
             return;
         }
         
@@ -74,9 +144,10 @@ public class Piso{
             System.out.println("nivel piso:"+ this.getNivelPiso());
             Javaling javaling = dataManager.getJavalingAleatorioSalvaje(this.getNivelPiso());
             
-            System.out.println("Has encontrado un " + javaling.getNombre());
-            System.out.println("Nivel " + javaling.getNivel());
-            javaling.printMovimientoJavaling();
+            Main.imprimirASCII(javaling.getNombre(),javaling.getColor());
+            Main.print("Has encontrado un " + javaling.getNombre(), "morado", javaling.getColor(),50);
+            Main.print("Nivel " + javaling.getNivel()+ "\n", javaling.getColor());
+            Main.print(javaling.getMovimientosString(),javaling.getColor(),10);
             System.out.println("¿Quieres capturarlo? (1) Si (2) No");
 
             int choice = scanner.nextInt();
@@ -84,11 +155,12 @@ public class Piso{
                 double probabilidad = random.nextDouble();
                 if (probabilidad < 0.4){
                     jugador.agregarJavaling(javaling,scanner);
-                    System.out.println(" Has capturado a " + javaling.getNombre());
+                    Main.print(" Has capturado a " + javaling.getNombre()+ "\n",20,"morado", false, null);
+                    Main.print("Terminando fase de captura ********************************", 40,"cyan",true,"Fase Terminada...");
                     this.subirPiso();
                     return;
                 }else{
-                    System.out.println("Has fallado la captura"); 
+                    Main.print(" Has fallado la captura\n","rojo"); 
                     System.out.println("Quieres intentar capturarlo de nuevo? (1) Si (2) No");
                     int choice1 = scanner.nextInt();
                     if (choice1 == 1){
@@ -99,12 +171,13 @@ public class Piso{
                             
                             if (probabilidad < 0.4){
                                 jugador.agregarJavaling(javaling,scanner);
-                                System.out.println("Has capturado a " + javaling.getNombre());
+                                Main.print(" Has capturado a " + javaling.getNombre()+ "\n",20,"morado", false, null);
+                                Main.print("Terminando fase de captura ********************************", 40,"cyan",true,"Fase Terminada...\n");
                                 this.subirPiso();
                                 continuar = false;
                                 return;
                             }else{
-                                System.out.println(" Has fallado la captura");
+                                Main.print(" Has fallado la captura\n","rojo");
                                 System.out.println("Quieres intentar capturarlo de nuevo? (1) Si (2) No");
                                 choice1 = scanner.nextInt();
                                 if (choice1 != 1){
@@ -113,31 +186,71 @@ public class Piso{
                                 }
                                 probabilidad= random.nextDouble();
                                 if (probabilidad < 0.6){
-                                    System.out.println(" El javaling se ha escapado. No lo has capturado\n/*********************Terminando proceso de Captura************************/\n");
+                                    Main.print(" Has fallado la captura\n","rojo");
+                                    Main.print("Se ha escapado...\n","rojo");
+                                    Main.print("Terminando fase de captura ********************************", 40,"cyan",true,"Fase Terminada...");
                                     return;
                                 }
                             }probabilidad = random.nextDouble();
                         }
                     }else{
-                        System.out.println(" El javaling se ha escapado. No lo has capturado\n/*********************Terminando proceso de Captura************************/\n");
+                        System.out.println(" El javaling se ha escapado. No lo has capturado");
+                        Main.print("Terminando fase de captura ********************************", 40,"cyan",true,"Fase Terminada...");
                         return;
                     }
                 }
             }else if (choice == 2){
-                System.out.println(" Has decidido no capturarlo\n/*********************Terminando proceso de Captura************************/\n ");
+                System.out.println(" Has decidido no capturarlo.");
+                Main.print("Se ha escapado...\n","rojo");
+                Main.print("Terminando fase de captura ********************************", 40,"cyan",true,"Fase Terminada...");
                 return;
             }
         }
         else if (this.decision == 3){ //item random
             Objeto objetoAleatorio = dataManager.getItemAleatorio();
             jugador.agregarObjeto(objetoAleatorio);          
-            System.out.println("Has obtenido: " + objetoAleatorio.getNombre());
-            jugador.mostrarBolsa();
-            this.subirPiso();
+            Main.print("Has obtenido: ", "aqua claro", 15);
+            Main.print(objetoAleatorio.getNombre()+ "\n", "rojo claro", 15);
+            Main.print(jugador.getBolsaString(),"purpura claro", 15 );
+            Main.print("\nQuieres usar un item? (1) SI   (2) NO\n" , "aqua claro");
+            for (int i = 0; i < 2; i++) {
+                try {
+                    int opcion = scanner.nextInt();
+                    if(opcion ==1){
+                        Main.print("\nQué item usarás?\n" , "aqua claro");
+                        opcion =scanner.nextInt();
+                        Objeto objeto = jugador.getBolsa().get(opcion -1);
+                        Main.print("\nEn qué javaling lo usarás?\n" , "aqua claro");
+                        Main.print(jugador.getEquipoString(),"purpura claro",15);
+                        opcion =scanner.nextInt();
+                        objeto.usar(jugador.getEquipo()[opcion-1]);
+                        this.subirPiso();
+                        return;
+                    }
+                    else{
+                        Main.print("Como quieras...\n", "aqua claro");
+                        return;
+                    }
+                } catch (Exception e) {
+                    Main.print("Anota un número weno o te vai funao\n", "aqua claro");
+                    scanner.next(); // Limpiar el buffer del scanner
+                }
+            }
+            // Main.print("De hecho perdiste por chistosito\n", "rojo");
+            //         Main.imprimirASCII("gameover", "rojo");
+            //         System.exit(0);
+
+
+            Main.print("No hay caso... intenta de nuevo\n", "aqua claro");
             return;
         }
         else if(this.decision==4){ //ver Equipo
-            jugador.mostrarEquipo();
+            Main.print(jugador.getEquipoString(),"purpura claro",15);
+        }
+        else if(this.decision==5){
+            Main.print("malito...\n", "rojo");
+            Main.imprimirASCII("gameover", "rojo");
+            System.exit(0);
         }
     }
 }

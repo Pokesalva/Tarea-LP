@@ -16,6 +16,7 @@ public abstract class Javaling {
     private Estado estado;
     private int turnosRestantes;
     private static Random random = new Random();
+    private String color;
     
     public enum Estado{
         PARALIZADO,
@@ -41,6 +42,7 @@ public abstract class Javaling {
         this.estado = null; // Inicializar el estado como nulo
         this.turnosRestantes = 0; // Inicializar los turnos restantes como 0
         random = new Random(); // Inicializar el generador de números aleatorios
+        
         // Inicializar el nivel y la experiencia
     }
     @Override
@@ -53,8 +55,24 @@ public abstract class Javaling {
         System.out.println("Movimientos: " + Arrays.toString(this.movimiento));
     }
     public void printMovimientoJavaling(){
-        System.out.println("Movimientos: " + Arrays.toString(this.movimiento));
+        System.out.print("Movimientos: " );
+        for(int i=0; i< 4;i++){
+            if(this.movimiento[i]!=null){
+                System.out.print(i+1 + ". "+ this.movimiento[i].getNombre() +" ");
+            }
+        }
     } 
+    public String getMovimientosString(){
+        String  movs ="";
+        movs = movs + "Movimientos: " ;
+        for(int i=0; i< 4;i++){
+            if(this.movimiento[i]!=null){
+                movs = movs +(i+1) + ". "+ this.movimiento[i].getNombre() +" ";
+            }
+        }
+        movs = movs +"\n";
+        return movs;
+    }
     public String getNombre() {
         return nombre;
     }
@@ -84,6 +102,9 @@ public abstract class Javaling {
     }
     public Estado getEstado() {
         return estado;
+    }
+    public String getColor(){
+        return color;
     }
     public int getTurnosRestantes() {
         return turnosRestantes;
@@ -143,6 +164,9 @@ public abstract class Javaling {
     }
     public void setTipo(Tipo tipo) {
         this.tipo = tipo;
+    }
+    public void setColor(String color){
+        this.color = color;
     }
     public float getStab(int indiceMov){
         if (this.movimiento[indiceMov].getTipo() == this.getTipo()){
@@ -207,26 +231,24 @@ public abstract class Javaling {
         this.setHpTotal(2*this.getHpBase()*this.nivel/100  + (this.nivel + 10));
         this.setHpActual(this.getHpTotal());
     }
-    public void aplicarEfectoEstado() {
+    public String aplicarEfectoEstado() {
         if (this.estado != null) {
             // Aplicar el efecto del estado al Javaling
             switch (this.estado) {
                 case PARALIZADO:
                     // Lógica para el estado paralizado
-                    System.out.println(this.nombre + " está paralizado, quizás no ataque atacar.");
                     this.turnosRestantes--;
                     if (this.turnosRestantes <= 0) {
                         this.estado = null; // Eliminar el estado después de su duración
                     }
-                    break;
+                    return this.nombre + " está paralizado, quizás no ataque atacar.";
                 case DORMIDO:
                     // Lógica para el estado dormido
-                    System.out.println(this.nombre + " está dormido y no puede atacar.");
                     this.turnosRestantes--;
                     if (this.turnosRestantes <= 0) {
                         this.estado = null; // Eliminar el estado después de su duración
                     }
-                    break;
+                    return this.nombre + " está dormido y no puede atacar.";
                 case QUEMADO:
                     // Lógica para el estado quemado
                     System.out.println(this.nombre + " está quemado y pierde salud.");
@@ -235,7 +257,7 @@ public abstract class Javaling {
                     if (this.turnosRestantes <= 0) {
                         this.estado = null; // Eliminar el estado después de su duración
                     }
-                    break;
+                    return this.nombre + " está quemado y pierde salud.";
                 case MODOFURIA:
                     // Lógica para el modo furia
                     System.out.println(this.nombre + " está furioso y atacará con más potencia.");
@@ -243,8 +265,9 @@ public abstract class Javaling {
                     if (this.turnosRestantes <= 0) {
                         this.estado = null; // Eliminar el estado después de su duración
                     }
-                    break;
+                    return this.nombre + " está furioso y atacará con más potencia.";
             }
         }
+        return "";
     }
 }

@@ -1,17 +1,38 @@
-import re
 
-def imprimir_tercera_palabra(nombre_archivo):
-    with open(nombre_archivo, 'r', encoding='utf-8') as archivo:
-        lista = []
+
+# Mapa de colores ANSI para Java
+COLORES_ANSI = {
+    "rojo":    "\u001B[31m",
+    "amarillo":"\u001B[33m",
+    "azul":    "\u001B[34m",
+    "cian":    "\u001B[36m",
+    "verde":   "\u001B[32m",
+    "magenta": "\u001B[35m",
+    "blanco":  "\u001B[37m",
+    "negro":   "\u001B[30m",
+    "reset":   "\u001B[0m"
+}
+
+def escapar_java(texto):
+    texto = texto.replace("\\", "\\\\")
+    texto = texto.replace("\"", "\\\"")
+    texto = texto.replace("\t", "\\t")
+    texto = texto.replace("\b", "\\b")
+    texto = texto.replace("\n", "\\n")
+    texto = texto.replace("\r", "\\r")
+    return texto
+resultado = open("colores.txt","w")
+def generar_codigo_java(ruta_archivo, color_nombre):
+    color = COLORES_ANSI.get(color_nombre.lower(), COLORES_ANSI["reset"])
+    reset = COLORES_ANSI["reset"]
+
+    with open(ruta_archivo, 'r', encoding='utf-8') as archivo:
         for linea in archivo:
-            # Buscar todas las palabras ignorando signos como ; , . ! ?
+            linea = linea.rstrip("\n")
+            contenido = escapar_java(linea)
+            print(f'System.out.println("{color}{contenido}{reset}");')
+            resultado.write(f'System.out.println("{color}{contenido}{reset}");\n')
 
-            palabras = re.findall(r'\b\w+\b', linea)
-            if len(palabras) >= 3:
-                lista.append(f"{palabras[1]} {palabras[2]},")
-                print(f"this.{palabras[2]} = {palabras[2]};")  # Ya no tiene ";" ni otros signos
-    for i in lista:
-        print(i, end=' ')
 
-# Uso del script
-imprimir_tercera_palabra('texto.txt')
+generar_codigo_java("texto.txt", "rojo")
+resultado.close()

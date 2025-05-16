@@ -30,6 +30,14 @@ public class Jugador {
     public Javaling[] getEquipo() {
         return equipo;
     }
+    public int getEquipoTamaño(){
+        int j=0;
+        for( int i =0;i<6;i++){
+            if(this.getEquipo()[i]!=null){
+                j++;
+            }
+        }return j;
+    }
     public Piso getPisoActual() {
         return pisoActual;
     }
@@ -71,13 +79,31 @@ public class Jugador {
     public void mostrarBolsa() {
         if (bolsa != null && !bolsa.isEmpty()) {
             System.out.println("    BOLSA DE " + nombre.toUpperCase());
+            int i =1;
             for (Objeto objeto : bolsa) {
-                System.out.println("    > 1. " + objeto.getNombre() + " x" + objeto.getCantidad());
+                System.out.println("    >"+i+ objeto.getNombre() + " x" + objeto.getCantidad());
+                i++;
             }
         } else {
             System.out.println("    >>> La bolsa está vacía.");
         }
     }
+    public String getBolsaString(){
+        String bol = "";
+        if (bolsa != null && !bolsa.isEmpty()) {
+            bol = "BOLSA DE "+ nombre.toUpperCase() + "\n";
+            int i =1;
+            for (Objeto objeto : bolsa) {
+                bol = bol + ("    >"+i+". "+ objeto.getNombre() + " x" + objeto.getCantidad()+ "\n");
+                i++;
+            }
+        } else {
+            bol = "    >>> La bolsa está vacía.";
+        }
+        return bol;
+
+    }
+
     public void agregarJavaling(Javaling javaling, Scanner scanner) {
         for (int i = 0; i < equipo.length; i++) {
             if (equipo[i] == null) {
@@ -129,12 +155,26 @@ public class Jugador {
         System.out.println("Equipo de " + nombre);
         for (int i = 0; i < equipo.length; i++) {
             if (equipo[i] != null) {
-                System.out.println((i + 1) + ". " + equipo[i].getNombre() + "(lvl: " + equipo[i].getNivel()+ ")" + "vida" + equipo[i].getHpActual());
+                System.out.println((i + 1) + ". " + equipo[i].getNombre() + " (lvl: " + equipo[i].getNivel()+ ")" + "vida" + equipo[i].getHpActual());
             } else {
                 System.out.println((i + 1) + ". Vacío");
             }
         }
     }
+    public String getEquipoString(){
+        String equip = "";
+        equip = equip + "Equipo de " + nombre+ "\n";
+        for (int i = 0; i < equipo.length; i++) {
+            if (equipo[i] != null) {
+                equip = equip + "   >"+(i + 1) + ". " + equipo[i].getNombre() + " (lvl: " + equipo[i].getNivel() + " vida: " + equipo[i].getHpActual() + " velocidad: " + equipo[i].getVelocidad()+ ")\n";
+            } else {
+                equip = equip + "   >"+(i + 1) + ". Vacío\n";
+            }
+        }
+        equip = equip+"\n";
+        return equip;
+    }
+
     // public String getNombre() {
     //     return nombre;
     // }

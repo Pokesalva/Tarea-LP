@@ -32,7 +32,7 @@ public class DataManager {
         }
         random = new Random();
     }
-    private void cargarDatos() {
+    private static void cargarDatos() {
         movimientos = cargarMovimientos();
         items = cargarItems();
         cargarJavalings();
@@ -186,16 +186,16 @@ public class DataManager {
             System.err.println("Error al cargar javalings: " + e.getMessage());
         }
     }
-    public static Movimiento[] getListaMovimientos() {
+    public Movimiento[] getListaMovimientos() {
         return movimientos;
     }
-    public static List<Objeto> getListaItems() {
+    public List<Objeto> getListaItems() {
         return items;
     }
-    public static List<Javaling> getListaJavalings() {
+    public List<Javaling> getListaJavalings() {
         return listaJavalings;
     }
-    public static List<Javaling> getListaJavalingsTipo(Tipo tipo) {
+    public List<Javaling> getListaJavalingsTipo(Tipo tipo) {
         /**
          * Devuelve una lista de javalings de un tipo específico.
          * Si no se encuentra el tipo, devuelve lista de javalings.
